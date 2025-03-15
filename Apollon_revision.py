@@ -92,9 +92,13 @@ if page == "Polygones":
         f"""
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.2.4/fabric.min.js"></script>
         {component_code} 
+        <script>
+        console.log(canvas); // Verify canvas initialization
+        </script>
         """,
-        height=450,  # Ajustez la hauteur si nécessaire
+        height=450,
     )
+    st.write("Fabric.js loaded") # Check Fabric.js inclusion
 
 if page == "Chronologie":
     st.header("Chronologie")
