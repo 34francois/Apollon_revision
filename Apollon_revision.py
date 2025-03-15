@@ -331,7 +331,19 @@ if selected_tab == "Flashcards":
     # Afficher le bouton « Carte suivante »
     if st.button("Carte suivante"):
         st.session_state.current_card = random.choice(list(st.session_state.flashcards.keys()))
+    # Bouton pour mettre à jour les statistiques dans flashcards_df
+    if st.button("Mettre à jour les statistiques"):
+        # Convertir les flashcards en DataFrame
+        flashcards_df = pd.DataFrame(list(st.session_state.flashcards.items()), columns=["question", "answer"])
 
+        # Ajouter les colonnes "juste" et "faux"
+        flashcards_df["juste"] = flashcards_df["question"].apply(lambda question: st.session_state.flashcard_stats.get(question, {}).get("correct", 0))
+        flashcards_df["faux"] = flashcards_df["question"].apply(lambda question: st.session_state.flashcard_stats.get(question, {}).get("incorrect", 0))
+
+        # Mettre à jour st.session_state.flashcards avec les nouvelles données
+        st.session_state.flashcards = dict(zip(flashcards_df["question"], flashcards_df["answer"]))
+
+        st.success("Statistiques mises à jour dans flashcards_df !")    
     # Afficher les statistiques des flashcards (si disponibles)
     if st.session_state.flashcard_stats:
         st.header("Statistiques des flashcards")
