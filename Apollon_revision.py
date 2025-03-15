@@ -39,9 +39,9 @@ if selected_tab == "Chronologie":
     # Afficher le composant chronologie en utilisant JavaScript
     st.components.v1.html(
         f"""
-        <div id="timeline"></div>  
+        <div id="timeline"></div>
         <script>
-        const datesData = {dates_json}; 
+        const datesData = {dates_json};
 
         // Créer les carrés pour chaque date
         const timelineContainer = document.getElementById('timeline');
@@ -53,12 +53,34 @@ if selected_tab == "Chronologie":
             square.style.border = '1px solid black';
             square.style.margin = '10px';
             square.style.display = 'inline-block';
+            square.style.position = 'absolute'; // Pour permettre le déplacement
             square.textContent = date.date + ': ' + date.événement;
             timelineContainer.appendChild(square);
+
+            // Gestion du déplacement
+            let isDragging = false;
+            let offsetX, offsetY;
+
+            square.addEventListener('mousedown', (e) => {{
+                isDragging = true;
+                offsetX = e.clientX - square.offsetLeft;
+                offsetY = e.clientY - square.offsetTop;
+            }});
+
+            document.addEventListener('mouseup', () => {{
+                isDragging = false;
+            }});
+
+            document.addEventListener('mousemove', (e) => {{
+                if (isDragging) {{
+                    square.style.left = (e.clientX - offsetX) + 'px';
+                    square.style.top = (e.clientY - offsetY) + 'px';
+                }}
+            }});
         }});
         </script>
         """,
-        height=200,  # Ajustez la hauteur si nécessaire
+        height=200,
     )
 
 if selected_tab == "Flashcards":
