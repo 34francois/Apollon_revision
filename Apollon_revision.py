@@ -39,7 +39,12 @@ if selected_tab == "Chronologie":
     # Afficher le composant chronologie en utilisant JavaScript
     st.components.v1.html(
         f"""
-        <div id="timeline"></div>
+        <div id="timeline">
+            <div class="fixed-square" style="left: 50px; top: 50px;"></div>
+            <div class="fixed-square" style="left: 200px; top: 50px;"></div>
+            <div class="fixed-square" style="left: 350px; top: 50px;"></div>
+            <div class="fixed-square" style="left: 500px; top: 50px;"></div>
+        </div>
         <script>
         const datesData = {dates_json};
 
@@ -48,7 +53,7 @@ if selected_tab == "Chronologie":
         datesData.forEach(date => {{
             const square = document.createElement('div');
             square.style.width = '100px';
-            square.style.height = '40px';
+            square.style.height = '100px';
             square.style.backgroundColor = 'lightblue';
             square.style.border = '1px solid black';
             square.style.margin = '10px';
@@ -77,6 +82,15 @@ if selected_tab == "Chronologie":
                     square.style.top = (e.clientY - offsetY) + 'px';
                 }}
             }});
+        }});
+        // Styliser les carrés fixes
+        const fixedSquares = document.querySelectorAll('.fixed-square');
+        fixedSquares.forEach(square => {{
+            square.style.width = '50px';
+            square.style.height = '50px';
+            square.style.backgroundColor = 'gray';
+            square.style.border = '1px solid black';
+            square.style.position = 'absolute';
         }});
         </script>
         """,
