@@ -17,67 +17,49 @@ selected_tab = st.sidebar.radio("Sélectionnez un onglet", tabs)
 if selected_tab == "Polygones":
     st.header("Tracer des polygones")
 
-    # Inclure Konva.js
-    st.markdown(
-        """
-        <script src="https://unpkg.com/konva@8/konva.min.js"></script>
-        """,
-        unsafe_allow_html=True,
-    )
-    
-    # Créer un conteneur pour le canevas
-    st.markdown(
-        '<div id="container" style="width: 600px; height: 400px;"></div>',
-        unsafe_allow_html=True,
-    )
-    
-    # Afficher le composant de dessin de polygones en utilisant JavaScript
-    st.write(
-        """
-        <script>
-        var width = 600;
-        var height = 400;
+    # HTML et JavaScript pour le composant
+    component_code = """
+    <div>
+        <canvas id="canvas" width="600" height="400"></canvas>
+    </div>
+    <script>
+        const canvas = new fabric.Canvas('canvas');
 
-        var stage = new Konva.Stage({
-            container: 'container',
-            width: width,
-            height: height
-        });
+        let isDrawing = false;
+        let points = [];
+        let polygon;
 
-        var layer = new Konva.Layer();
-        stage.add(layer);
-
-        var isDrawing = false;
-        var points = [];
-        var polygon;
-
-        stage.on('mousedown', function(e) {
+        canvas.on('mouse:down', function(options) {
             if (!isDrawing) {
                 isDrawing = true;
-                points = [stage.getPointerPosition().x, stage.getPointerPosition().y];
-                polygon = new Konva.Line({
-                    points: points,
+                points = [options.pointer.x, options.pointer.y];
+                polygon = new fabric.Polygon(points, {
                     stroke: 'black',
                     strokeWidth: 2,
-                    closed: false,
-                    fill: 'lightblue' // Remplir le polygone
+                    fill: 'lightblue',
+                    objectCaching: false 
                 });
-                layer.add(polygon);
+                canvas.add(polygon);
             } else {
-                points.push(stage.getPointerPosition().x, stage.getPointerPosition().y);
-                polygon.points(points);
+                points.push(options.pointer.x, options.pointer.y);
+                polygon.set({ points: points });
+                canvas.renderAll();
             }
-            layer.batchDraw();
         });
 
-        stage.on('dblclick', function() {
+        canvas.on('mouse:up', function() {
             isDrawing = false;
-            polygon.closed(true); // Fermer le polygone au double clic
-            layer.batchDraw();
         });
-        </script>
+    </script>
+    """
+
+    # Inclure Fabric.js
+    components.html(
+        f"""
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.2.4/fabric.min.js"></script>
+        {component_code} 
         """,
-        unsafe_allow_html=True,
+        height=450,  # Ajustez la hauteur si nécessaire
     )
 
 if selected_tab == "Chronologie":
