@@ -1,2 +1,3 @@
 streamlit-community-navigation-bar
 google
+google.colab
