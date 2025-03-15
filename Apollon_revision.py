@@ -393,4 +393,5 @@ if page == "QCM":
     }
     loadQuestion();
     <script>
+    """
 
