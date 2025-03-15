@@ -14,7 +14,7 @@ pages = [
 
 styles = {
     "nav": {
-        "background-color": "#c7d455",
+        "background-color": "#9ea4f0",
         "justify-content": "left",
     },
     "img": {
