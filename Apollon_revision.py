@@ -358,7 +358,6 @@ if page == "QCM":
         choices: ["Paris", "Londres", "Berlin", "Madrid"],
         answer: "A"
       },
-      // Ajoute d'autres questions ici
     ];
     
     let currentQuestion = 0;
