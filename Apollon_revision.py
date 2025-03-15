@@ -47,11 +47,9 @@ if "flashcard_stats" not in st.session_state:
     st.session_state.flashcard_stats = {}
 if "quizzes" not in st.session_state:
     st.session_state.quizzes = {}
-# Créer les onglets
-tabs = ["Flashcards", "QCM", "Chronologie", "Polygones"]
-selected_tab = st.sidebar.radio("Sélectionnez un onglet", tabs)
 
-if selected_tab == "Polygones":
+
+if page == "Polygones":
     st.header("Tracer des polygones")
 
     # HTML et JavaScript pour le composant
@@ -99,7 +97,7 @@ if selected_tab == "Polygones":
         height=450,  # Ajustez la hauteur si nécessaire
     )
 
-if selected_tab == "Chronologie":
+if page == "Chronologie":
     st.header("Chronologie")
 
     # Charger les dates depuis un fichier CSV ou une autre source de données
@@ -212,7 +210,7 @@ if selected_tab == "Chronologie":
         height=800,
     )
 
-if selected_tab == "Flashcards":
+if page == "Flashcards":
     # Initialiser l'état de l'application
     if "current_card" not in st.session_state:
         st.session_state.current_card = ""  # Vide au départ
@@ -403,7 +401,7 @@ if selected_tab == "Flashcards":
             st.write(f"Juste : {stats['correct']}, Faux : {stats['incorrect']}")
             st.write("---")
 
-elif selected_tab == "QCM":
+if page == "QCM":
     st.header("Créer un QCM")
     with st.form("new_quiz"):
         question = st.text_input("Question :")
