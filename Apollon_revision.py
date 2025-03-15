@@ -64,7 +64,9 @@ if selected_tab == "Flashcards":
         edited_df = st.data_editor(flashcards_df, key="flashcards_editor", num_rows="dynamic")
         
         # Mettre à jour les flashcards avec les modifications
-        st.session_state.flashcards = dict(zip(edited_df["question"], edited_df["answer"]))
+        if st.button("Mettre à jour les modifications"):
+            st.session_state.flashcards = dict(zip(edited_df["question"], edited_df["answer"]))
+            st.rerun()
 
         
     # Sélectionner une flashcard aléatoire si les flashcards ne sont pas vides
