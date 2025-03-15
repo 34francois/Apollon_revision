@@ -332,6 +332,13 @@ if selected_tab == "Flashcards":
     if st.button("Carte suivante"):
         st.session_state.current_card = random.choice(list(st.session_state.flashcards.keys()))
 
+    # Afficher les statistiques des flashcards (si disponibles)
+    if st.session_state.flashcard_stats:
+        st.header("Statistiques des flashcards")
+        for question, stats in st.session_state.flashcard_stats.items():
+            st.write(f"**Question :** {question}")
+            st.write(f"Juste : {stats['correct']}, Faux : {stats['incorrect']}")
+            st.write("---")
 
 elif selected_tab == "QCM":
     st.header("Créer un QCM")
