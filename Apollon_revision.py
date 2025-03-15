@@ -39,19 +39,12 @@ if selected_tab == "Chronologie":
     # Afficher le composant chronologie en utilisant JavaScript
     st.components.v1.html(
         f"""
-        <div id="timeline">
-            <div class="position" style="left: 50px; top: 50px;"></div>
-            <div class="position" style="left: 200px; top: 50px;"></div>
-            <div class="position" style="left: 350px; top: 50px;"></div>
-        </div>
+        <div id="timeline"></div>
         <script>
         const datesData = {dates_json};
 
         // Créer les carrés pour chaque date
         const timelineContainer = document.getElementById('timeline');
-        const positions = document.querySelectorAll('.position');
-        let currentPositionIndex = 0;
-
         datesData.forEach(date => {{
             const square = document.createElement('div');
             square.style.width = '100px';
@@ -60,21 +53,13 @@ if selected_tab == "Chronologie":
             square.style.border = '1px solid black';
             square.style.margin = '10px';
             square.style.display = 'inline-block';
-            square.style.position = 'absolute';
+            square.style.position = 'absolute'; // Pour permettre le déplacement
             square.textContent = date.date + ': ' + date.événement;
-
-            // Placer le carré sur la position initiale
-            const initialPosition = positions[currentPositionIndex];
-            square.style.left = initialPosition.offsetLeft + 'px';
-            square.style.top = initialPosition.offsetTop + 'px';
-            currentPositionIndex = (currentPositionIndex + 1) % positions.length;
-
             timelineContainer.appendChild(square);
 
-            // ... (Gestion du déplacement - modifiée)
+            // Gestion du déplacement
             let isDragging = false;
             let offsetX, offsetY;
-            let targetPosition = null; 
 
             square.addEventListener('mousedown', (e) => {{
                 isDragging = true;
@@ -84,33 +69,12 @@ if selected_tab == "Chronologie":
 
             document.addEventListener('mouseup', () => {{
                 isDragging = false;
-                if (targetPosition) {{
-                    square.style.left = targetPosition.offsetLeft + 'px';
-                    square.style.top = targetPosition.offsetTop + 'px';
-                }}
-                targetPosition = null;
             }});
 
             document.addEventListener('mousemove', (e) => {{
                 if (isDragging) {{
-                    // Trouver la position la plus proche
-                    let minDistance = Infinity;
-                    positions.forEach(position => {{
-                        const distance = Math.sqrt(
-                            Math.pow(e.clientX - offsetX - position.offsetLeft, 2) +
-                            Math.pow(e.clientY - offsetY - position.offsetTop, 2)
-                        );
-                        if (distance < minDistance) {{
-                            minDistance = distance;
-                            targetPosition = position;
-                        }}
-                    }});
-
-                    // Déplacer le carré vers la position la plus proche
-                    if (targetPosition) {{
-                        square.style.left = targetPosition.offsetLeft + 'px';
-                        square.style.top = targetPosition.offsetTop + 'px';
-                    }}
+                    square.style.left = (e.clientX - offsetX) + 'px';
+                    square.style.top = (e.clientY - offsetY) + 'px';
                 }}
             }});
         }});
