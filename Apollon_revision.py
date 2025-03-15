@@ -1,5 +1,6 @@
 import streamlit as st
 import random
+import pandas as pd
 
 # Initialiser les flashcards (vide au départ)
 if "flashcards" not in st.session_state:
@@ -17,7 +18,17 @@ with st.form("new_card"):
     if st.form_submit_button("Ajouter"):
         st.session_state.flashcards[question] = answer
         st.success("Flashcard ajoutée !")
-
+        
+# Charger les flashcards à partir d'un fichier CSV
+st.header("Charger des flashcards à partir d'un fichier CSV")
+uploaded_file = st.file_uploader("Choisir un fichier CSV", type=["csv"])
+if uploaded_file is not None:
+    df = pd.read_csv(uploaded_file)
+    # Assurez-vous que le fichier CSV a des colonnes nommées "question" et "answer"
+    for index, row in df.iterrows():
+        st.session_state.flashcards[row["question"]] = row["answer"]
+    st.success("Flashcards chargées à partir du fichier CSV !")
+    
 # Sélectionner une flashcard aléatoire si les flashcards ne sont pas vides
 if st.session_state.flashcards:
     if not st.session_state.current_card:
