@@ -7,10 +7,49 @@ import base64
 # Initialiser les flashcards (vide au départ)
 if "flashcards" not in st.session_state:
     st.session_state.flashcards = {}
+    
+if selected_tab == "Chronologie":
+    st.header("Chronologie")
+
+    # Charger les dates depuis un fichier CSV ou une autre source de données
+    # (Remplacez par votre propre logique de chargement de données)
+    dates_df = pd.DataFrame(
+        [
+            {"date": "2023-10-26", "événement": "Événement 1"},
+            {"date": "2023-11-15", "événement": "Événement 2"},
+            {"date": "2023-12-03", "événement": "Événement 3"},
+        ]
+    )
+
+    # Afficher le composant chronologie en utilisant JavaScript
+    st.markdown(
+        """
+        <div id="timeline"></div>
+        <script>
+        // Code JavaScript pour créer la chronologie (à adapter avec une bibliothèque comme vis.js)
+        // ...
+        </script>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    # Passer les données de dates au composant JavaScript
+    st.markdown(
+        f"""
+        <script>
+        const datesData = {dates_df.to_json(orient="records")};
+        // ... (utiliser datesData pour créer la chronologie)
+        </script>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+
 if "quizzes" not in st.session_state:
     st.session_state.quizzes = {}
 # Créer les onglets
-tabs = ["Flashcards", "QCM"]
+tabs = ["Flashcards", "QCM", "Chronologie"]
 selected_tab = st.sidebar.radio("Sélectionnez un onglet", tabs)
 
 if selected_tab == "Flashcards":
