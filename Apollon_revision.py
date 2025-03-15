@@ -2,9 +2,8 @@ import streamlit as st
 import random
 import pandas as pd
 import base64
-import streamlit.components.v1 as components  # Ajout de l'importation
+import streamlit.components.v1 as components
 from streamlit_navigation_bar import st_navbar
-import pandas as pd
 import io
 from google.colab import auth
 from google.auth.transport.requests import Request
@@ -12,49 +11,28 @@ from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-pages = [
-        "Flashcards",
-        "QCM",
-        "Chronologie",
-        "Polygones"
-    ]
-
+# Configuration de la barre de navigation
+pages = ["Flashcards", "QCM", "Chronologie", "Polygones"]
 styles = {
-    "nav": {
-        "background-color": "#9ea4f0",
-        "justify-content": "left",
-    },
-    "img": {
-        "padding-right": "14px",
-    },
-    "span": {
-        "color": "white",
-        "padding": "14px",
-    },
-    "active": {
-        "background-color": "white",
-        "color": "var(--text-color)",
-        "font-weight": "normal",
-        "padding": "14px",
-    }
+    "nav": {"background-color": "#9ea4f0", "justify-content": "left"},
+    "img": {"padding-right": "14px"},
+    "span": {"color": "white", "padding": "14px"},
+    "active": {"background-color": "white", "color": "var(--text-color)", "font-weight": "normal", "padding": "14px"},
 }
-
-options = {
-    "show_menu": False,
-    "show_sidebar": False,
-}
-
+options = {"show_menu": False, "show_sidebar": False}
 page = st_navbar(pages, styles=styles)
 
-# Initialiser les flashcards (vide au départ)
+# Initialisation des états de session
 if "flashcards" not in st.session_state:
     st.session_state.flashcards = {}
-# Initialiser les statistiques des flashcards
 if "flashcard_stats" not in st.session_state:
     st.session_state.flashcard_stats = {}
 if "quizzes" not in st.session_state:
     st.session_state.quizzes = {}
+if "current_card" not in st.session_state:
+    st.session_state.current_card = ""
 
+# Fonction pour sauvegarder les flashcards dans un fichier CSV
 def save_flashcards_to_csv(flashcards, filename="flashcards.csv"):
     data = []
     for question, answer in flashcards.items():
@@ -64,6 +42,14 @@ def save_flashcards_to_csv(flashcards, filename="flashcards.csv"):
     df = pd.DataFrame(data, columns=["question", "answer", "correct", "incorrect"])
     df.to_csv(filename, index=False)
     return filename
+
+# Fonction pour permettre le téléchargement du fichier CSV
+def download_csv(filename):
+    with open(filename, "rb") as f:
+        bytes_data = f.read()
+    b64 = base64.b64encode(bytes_data).decode()
+    href = f'<a href="data:file/csv;base64,{b64}" download="{filename}">Télécharger le fichier CSV</a>'
+    st.markdown(href, unsafe_allow_html=True)
 
 
 if page == "Polygones":
@@ -279,14 +265,6 @@ if page == "Flashcards":
                     st.success("Flashcards chargées à partir du lien Google Drive !")
 
 
-        
-        # Fonction pour permettre le téléchargement du fichier CSV
-        def download_csv(filename):
-            with open(filename, "rb") as f:
-                bytes_data = f.read()
-            b64 = base64.b64encode(bytes_data).decode()
-            href = f'<a href="data:file/csv;base64,{b64}" download="{filename}">Télécharger le fichier CSV</a>'
-            st.markdown(href, unsafe_allow_html=True)
         
         # Bouton pour sauvegarder et télécharger les flashcards
         if st.button("Sauvegarder et télécharger les flashcards"):
