@@ -37,17 +37,15 @@ if selected_tab == "Chronologie":
     dates_json = dates_df.to_json(orient="records")
 
     # Afficher le composant chronologie en utilisant JavaScript
-    st.markdown(
-        """
+    st.components.v1.html(
+        f"""
         <div id="timeline"></div>  
         <script>
-        const datesData = """
-        + dates_json
-        + """; 
+        const datesData = {dates_json}; 
 
         // Créer les carrés pour chaque date
         const timelineContainer = document.getElementById('timeline');
-        datesData.forEach(date => {
+        datesData.forEach(date => {{
             const square = document.createElement('div');
             square.style.width = '100px';
             square.style.height = '100px';
@@ -57,10 +55,10 @@ if selected_tab == "Chronologie":
             square.style.display = 'inline-block';
             square.textContent = date.date + ': ' + date.événement;
             timelineContainer.appendChild(square);
-        });
+        }});
         </script>
         """,
-        unsafe_allow_html=True,
+        height=200,  # Ajustez la hauteur si nécessaire
     )
 
 if selected_tab == "Flashcards":
