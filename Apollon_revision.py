@@ -48,6 +48,51 @@ def download_csv(filename):
     st.markdown(href, unsafe_allow_html=True)
 
 
+with st.sidebar:
+    # Initialiser l'état de l'application
+    #if "current_card" not in st.session_state:
+       # st.session_state.current_card = ""  # Vide au départ
+    
+    # Rubrique pour créer des flashcards
+    st.header("Créer des flashcards")
+    with st.form("new_card"):
+        question = st.text_input("Question :")
+        answer = st.text_input("Réponse :")
+        if st.form_submit_button("Ajouter"):
+            st.session_state.flashcards[question] = answer
+            st.success("Flashcard ajoutée !")
+            
+    # Charger les flashcards à partir d'un fichier CSV
+    st.header("Charger des flashcards à partir d'un fichier CSV")
+    
+    # Option 1 : Charger à partir d'un fichier local
+    uploaded_file = st.file_uploader("Choisir un fichier CSV", type=["csv"])
+    if uploaded_file is not None:
+        df = pd.read_csv(uploaded_file)
+        # Assurez-vous que le fichier CSV a des colonnes nommées "question" et "answer"
+        for index, row in df.iterrows():
+            st.session_state.flashcards[row["question"]] = row["answer"]
+        st.success("Flashcards chargées à partir du fichier CSV !")
+        
+
+        
+    # Bouton pour sauvegarder et télécharger les flashcards
+    if st.button("Sauvegarder et télécharger les flashcards"):
+        filename = save_flashcards_to_csv(st.session_state.flashcards)
+        st.success(f"Flashcards sauvegardées dans {filename}")
+        download_csv(filename)
+        
+    # Convertir les flashcards en DataFrame pour st.data_editor
+    flashcards_df = pd.DataFrame(list(st.session_state.flashcards.items()), columns=["question", "answer"])
+    
+    # Afficher st.data_editor pour modifier les flashcards
+    edited_df = st.data_editor(flashcards_df, key="flashcards_editor", num_rows="dynamic")
+    
+    # Mettre à jour les flashcards avec les modifications
+    if st.button("Mettre à jour les modifications"):
+        st.session_state.flashcards = dict(zip(edited_df["question"], edited_df["answer"]))
+        st.rerun()
+
 if page == "Chronologie":
     st.header("Chronologie")
 
@@ -161,50 +206,7 @@ if page == "Chronologie":
         height=800,
     )
 
-with st.sidebar:
-    # Initialiser l'état de l'application
-    #if "current_card" not in st.session_state:
-       # st.session_state.current_card = ""  # Vide au départ
-    with st.expander("Créer les flashcards"):
-        # Rubrique pour créer des flashcards
-        st.header("Créer des flashcards")
-        with st.form("new_card"):
-            question = st.text_input("Question :")
-            answer = st.text_input("Réponse :")
-            if st.form_submit_button("Ajouter"):
-                st.session_state.flashcards[question] = answer
-                st.success("Flashcard ajoutée !")
-                
-        # Charger les flashcards à partir d'un fichier CSV
-        st.header("Charger des flashcards à partir d'un fichier CSV")
-        
-        # Option 1 : Charger à partir d'un fichier local
-        uploaded_file = st.file_uploader("Choisir un fichier CSV", type=["csv"])
-        if uploaded_file is not None:
-            df = pd.read_csv(uploaded_file)
-            # Assurez-vous que le fichier CSV a des colonnes nommées "question" et "answer"
-            for index, row in df.iterrows():
-                st.session_state.flashcards[row["question"]] = row["answer"]
-            st.success("Flashcards chargées à partir du fichier CSV !")
-        
 
-        
-        # Bouton pour sauvegarder et télécharger les flashcards
-        if st.button("Sauvegarder et télécharger les flashcards"):
-            filename = save_flashcards_to_csv(st.session_state.flashcards)
-            st.success(f"Flashcards sauvegardées dans {filename}")
-            download_csv(filename)
-            
-        # Convertir les flashcards en DataFrame pour st.data_editor
-        flashcards_df = pd.DataFrame(list(st.session_state.flashcards.items()), columns=["question", "answer"])
-        
-        # Afficher st.data_editor pour modifier les flashcards
-        edited_df = st.data_editor(flashcards_df, key="flashcards_editor", num_rows="dynamic")
-        
-        # Mettre à jour les flashcards avec les modifications
-        if st.button("Mettre à jour les modifications"):
-            st.session_state.flashcards = dict(zip(edited_df["question"], edited_df["answer"]))
-            st.rerun()
 
 if page == "Flashcards": 
     # Sélectionner une flashcard aléatoire si les flashcards ne sont pas vides
