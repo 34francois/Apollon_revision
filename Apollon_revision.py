@@ -48,7 +48,7 @@ if selected_tab == "Chronologie":
         datesData.forEach(date => {{
             const square = document.createElement('div');
             square.style.width = '100px';
-            square.style.height = '100px';
+            square.style.height = '40px';
             square.style.backgroundColor = 'lightblue';
             square.style.border = '1px solid black';
             square.style.margin = '10px';
