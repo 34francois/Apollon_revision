@@ -337,6 +337,7 @@ if page == "Flashcards":
 
 if page == "QCM":
     st.header("QCM")
+    html_code = """
     <div id="quiz-container">
       <div id="question"></div>
       <div id="choices">
@@ -347,6 +348,8 @@ if page == "QCM":
       </div>
       <div id="result"></div>
     </div>
+
+    <script>
     const quizContainer = document.getElementById('quiz-container');
     const questionElement = document.getElementById('question');
     const choicesElement = document.getElementById('choices');
@@ -389,4 +392,5 @@ if page == "QCM":
       }
     }
     loadQuestion();
+    <script>
 
