@@ -55,6 +55,16 @@ if "flashcard_stats" not in st.session_state:
 if "quizzes" not in st.session_state:
     st.session_state.quizzes = {}
 
+def save_flashcards_to_csv(flashcards, filename="flashcards.csv"):
+    data = []
+    for question, answer in flashcards.items():
+        correct = st.session_state.flashcard_stats.get(question, {}).get("correct", 0)
+        incorrect = st.session_state.flashcard_stats.get(question, {}).get("incorrect", 0)
+        data.append([question, answer, correct, incorrect])
+    df = pd.DataFrame(data, columns=["question", "answer", "correct", "incorrect"])
+    df.to_csv(filename, index=False)
+    return filename
+
 
 if page == "Polygones":
     st.header("Tracer des polygones")
@@ -268,19 +278,7 @@ if page == "Flashcards":
                         st.session_state.flashcards[row["question"]] = row["answer"]
                     st.success("Flashcards chargées à partir du lien Google Drive !")
 
-        
-        # Fonction pour sauvegarder les flashcards dans un fichier CSV
-        def save_flashcards_to_csv(flashcards, filename="flashcards.csv"):
-            # Créer un DataFrame avec les questions, réponses et statistiques
-            data = []
-            for question, answer in flashcards.items():
-                correct = st.session_state.flashcard_stats.get(question, {}).get("correct", 0)  # Obtenir le nombre de réponses correctes
-                incorrect = st.session_state.flashcard_stats.get(question, {}).get("incorrect", 0)  # Obtenir le nombre de réponses incorrectes
-                data.append([question, answer, correct, incorrect])  # Ajouter les données au tableau
-        
-            df = pd.DataFrame(data, columns=["question", "answer", "correct", "incorrect"])  # Créer le DataFrame
-            df.to_csv(filename, index=False)  # Enregistrer le DataFrame dans un fichier CSV
-            return filename
+
         
         # Fonction pour permettre le téléchargement du fichier CSV
         def download_csv(filename):
