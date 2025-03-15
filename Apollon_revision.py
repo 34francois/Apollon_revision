@@ -1,6 +1,8 @@
 import streamlit as st
 import random
 import pandas as pd
+import base64
+
 
 # Initialiser les flashcards (vide au départ)
 if "flashcards" not in st.session_state:
@@ -41,10 +43,19 @@ if selected_tab == "Flashcards":
             df.to_csv(filename, index=False)
             return filename
         
-        # Bouton pour sauvegarder les flashcards
-        if st.button("Sauvegarder les flashcards"):
+        # Fonction pour permettre le téléchargement du fichier CSV
+        def download_csv(filename):
+            with open(filename, "rb") as f:
+                bytes_data = f.read()
+            b64 = base64.b64encode(bytes_data).decode()
+            href = f'<a href="data:file/csv;base64,{b64}" download="{filename}">Télécharger le fichier CSV</a>'
+            st.markdown(href, unsafe_allow_html=True)
+        
+        # Bouton pour sauvegarder et télécharger les flashcards
+        if st.button("Sauvegarder et télécharger les flashcards"):
             filename = save_flashcards_to_csv(st.session_state.flashcards)
             st.success(f"Flashcards sauvegardées dans {filename}")
+            download_csv(filename)
         
     # Sélectionner une flashcard aléatoire si les flashcards ne sont pas vides
     if st.session_state.flashcards:
