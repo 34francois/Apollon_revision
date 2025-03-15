@@ -202,8 +202,15 @@ if selected_tab == "Flashcards":
         
         # Fonction pour sauvegarder les flashcards dans un fichier CSV
         def save_flashcards_to_csv(flashcards, filename="flashcards.csv"):
-            df = pd.DataFrame(list(flashcards.items()), columns=["question", "answer"])
-            df.to_csv(filename, index=False)
+            # Créer un DataFrame avec les questions, réponses et statistiques
+            data = []
+            for question, answer in flashcards.items():
+                correct = st.session_state.flashcard_stats.get(question, {}).get("correct", 0)  # Obtenir le nombre de réponses correctes
+                incorrect = st.session_state.flashcard_stats.get(question, {}).get("incorrect", 0)  # Obtenir le nombre de réponses incorrectes
+                data.append([question, answer, correct, incorrect])  # Ajouter les données au tableau
+        
+            df = pd.DataFrame(data, columns=["question", "answer", "correct", "incorrect"])  # Créer le DataFrame
+            df.to_csv(filename, index=False)  # Enregistrer le DataFrame dans un fichier CSV
             return filename
         
         # Fonction pour permettre le téléchargement du fichier CSV
@@ -303,10 +310,26 @@ if selected_tab == "Flashcards":
     # Afficher la question
     st.markdown(f'<div class="card"><div class="question">{st.session_state.current_card}</div></div>', unsafe_allow_html=True)
     
-    
+    # Afficher les boutons "Juste" et "Faux"
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Juste"):
+            if st.session_state.current_card in st.session_state.flashcard_stats:
+                st.session_state.flashcard_stats[st.session_state.current_card]["correct"] += 1
+            else:
+                st.session_state.flashcard_stats[st.session_state.current_card] = {"correct": 1, "incorrect": 0}
+            st.session_state.current_card = random.choice(list(st.session_state.flashcards.keys()))  # Passer à la carte suivante
+    with col2:
+        if st.button("Faux"):
+            if st.session_state.current_card in st.session_state.flashcard_stats:
+                st.session_state.flashcard_stats[st.session_state.current_card]["incorrect"] += 1
+            else:
+                st.session_state.flashcard_stats[st.session_state.current_card] = {"correct": 0, "incorrect": 1}
+            st.session_state.current_card = random.choice(list(st.session_state.flashcards.keys()))  # Passer à la carte suivante
     # Afficher le bouton « Carte suivante »
     if st.button("Carte suivante"):
         st.session_state.current_card = random.choice(list(st.session_state.flashcards.keys()))
+
 
 elif selected_tab == "QCM":
     st.header("Créer un QCM")
