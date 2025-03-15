@@ -161,7 +161,7 @@ if page == "Chronologie":
         height=800,
     )
 
-if page == "Flashcards":
+with st.sidebar:
     # Initialiser l'état de l'application
     #if "current_card" not in st.session_state:
        # st.session_state.current_card = ""  # Vide au départ
@@ -206,7 +206,7 @@ if page == "Flashcards":
             st.session_state.flashcards = dict(zip(edited_df["question"], edited_df["answer"]))
             st.rerun()
 
-        
+if page == "Flashcards": 
     # Sélectionner une flashcard aléatoire si les flashcards ne sont pas vides
     if st.session_state.flashcards:
         if not st.session_state.current_card:
