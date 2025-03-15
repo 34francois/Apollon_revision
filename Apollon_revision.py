@@ -337,14 +337,54 @@ if page == "Flashcards":
 
 if page == "QCM":
     st.header("QCM")
-    html_code = """
+
+    html_string = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <style>
+    #quiz-container {
+        width: 500px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    #question {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .choice {
+        width: 100px;
+        height: 100px;
+        background-color: lightblue;
+        border: 1px solid black;
+        margin: 10px;
+        display: inline-block;
+        cursor: pointer;
+        line-height: 100px; /* Centre le texte verticalement */
+        text-align: center;
+        font-size: 18px;
+    }
+
+    .choice.selected {
+        background-color: lightgreen;
+    }
+
+    #result {
+        font-size: 18px;
+        margin-top: 20px;
+    }
+    </style>
+    </head>
+    <body>
     <div id="quiz-container">
       <div id="question"></div>
       <div id="choices">
-        <div class="choice" data-choice="A"></div>
-        <div class="choice" data-choice="B"></div>
-        <div class="choice" data-choice="C"></div>
-        <div class="choice" data-choice="D"></div>
+        <div class="choice" data-choice="A">A</div>
+        <div class="choice" data-choice="B">B</div>
+        <div class="choice" data-choice="C">C</div>
+        <div class="choice" data-choice="D">D</div>
       </div>
       <div id="result"></div>
     </div>
@@ -354,29 +394,47 @@ if page == "QCM":
     const questionElement = document.getElementById('question');
     const choicesElement = document.getElementById('choices');
     const resultElement = document.getElementById('result');
-    
+
     const questions = [
       {
         question: "Quelle est la capitale de la France ?",
         choices: ["Paris", "Londres", "Berlin", "Madrid"],
         answer: "A"
       },
+      {
+        question: "Quel est le plus grand océan du monde ?",
+        choices: ["Océan Atlantique", "Océan Indien", "Océan Pacifique", "Océan Arctique"],
+        answer: "C"
+      },
+      // Ajoutez d'autres questions ici
     ];
-    
+
     let currentQuestion = 0;
-    
+    let selectedChoice = null; 
+
     function loadQuestion() {
       const question = questions[currentQuestion];
       questionElement.textContent = question.question;
-    
+
       const choices = question.choices;
       for (let i = 0; i < choices.length; i++) {
         const choiceElement = choicesElement.children[i];
         choiceElement.textContent = choices[i];
-        choiceElement.onclick = () => checkAnswer(choices[i]);
+
+        choiceElement.onclick = () => {
+            // Désélectionner le choix précédent
+            if (selectedChoice) {
+                selectedChoice.classList.remove('selected');
+            }
+            // Sélectionner le nouveau choix
+            selectedChoice = choiceElement; 
+            selectedChoice.classList.add('selected');
+
+            checkAnswer(choices[i]);
+        };
       }
     }
-    
+
     function checkAnswer(choice) {
       const question = questions[currentQuestion];
       if (choice === question.choices[question.answer.charCodeAt(0) - 'A'.charCodeAt(0)]) {
@@ -384,14 +442,24 @@ if page == "QCM":
       } else {
         resultElement.textContent = "Incorrect.";
       }
-      currentQuestion++;
-      if (currentQuestion < questions.length) {
-        loadQuestion();
-      } else {
-        resultElement.textContent = "Fin du QCM.";
-      }
+
+      // Passe à la question suivante après un délai
+      setTimeout(() => {
+        currentQuestion++;
+        if (currentQuestion < questions.length) {
+            selectedChoice = null; // Réinitialiser la sélection
+            resultElement.textContent = ''; // Effacer le résultat précédent
+            loadQuestion();
+        } else {
+            resultElement.textContent = "Fin du QCM.";
+        }
+      }, 1000); // Délai de 1 seconde (1000 millisecondes)
     }
+
     loadQuestion();
-    <script>
+    </script>
+    </body>
+    </html>
     """
 
+    st.components.v1.html(html_string, height=500)  # Ajuste la hauteur si nécessaire
