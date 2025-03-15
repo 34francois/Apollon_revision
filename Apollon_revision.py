@@ -27,39 +27,12 @@ if selected_tab == "Chronologie":
         ]
     )
 
-    # Inclure les fichiers CSS et JavaScript de vis.js
-    st.markdown(
-        """
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css" rel="stylesheet" type="text/css" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
-        """,
-        unsafe_allow_html=True,
-    )
+    # Trier les dates par ordre chronologique
+    dates_df = dates_df.sort_values(by=["date"])
 
-    # Créer un conteneur pour la chronologie
-    st.markdown(
-        '<div id="visualization"></div>',
-        unsafe_allow_html=True,
-    )
-
-    # Convertir les données en format compatible avec vis.js
-    items = [
-        {"id": i, "content": row["événement"], "start": row["date"]}
-        for i, row in dates_df.iterrows()
-    ]
-
-    # Initialiser la chronologie avec JavaScript
-    st.markdown(
-        f"""
-        <script type="text/javascript">
-            var container = document.getElementById('visualization');
-            var items = new vis.DataSet({items});
-            var options = {{}};
-            var timeline = new vis.Timeline(container, items, options);
-        </script>
-        """,
-        unsafe_allow_html=True,
-    )
+    # Afficher la chronologie sous forme de liste
+    for index, row in dates_df.iterrows():
+        st.markdown(f"**{row['date']}**: {row['événement']}")
 
 
 if selected_tab == "Flashcards":
