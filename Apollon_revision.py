@@ -336,21 +336,5 @@ if page == "Flashcards":
             st.write("---")
 
 if page == "QCM":
-    st.header("Créer un QCM")
-    with st.form("new_quiz"):
-        question = st.text_input("Question :")
-        options = [st.text_input(f"Option {i+1} :") for i in range(4)]
-        correct_answer = st.radio("Réponse correcte :", options)
-        if st.form_submit_button("Ajouter"):
-            st.session_state.quizzes[question] = {"options": options, "correct_answer": correct_answer}
-            st.success("QCM ajouté !")
+    st.header("QCM")
 
-    # Afficher les QCM existants (si présents)
-    if st.session_state.quizzes:
-        st.header("QCM existants")
-        for question, data in st.session_state.quizzes.items():
-            st.write(f"**Question :** {question}")
-            for option in data["options"]:
-                st.write(f"- {option}")
-            st.write(f"**Réponse correcte :** {data['correct_answer']}")
-            st.write("---")
