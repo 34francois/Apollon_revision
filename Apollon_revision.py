@@ -4,6 +4,13 @@ import pandas as pd
 import base64
 import streamlit.components.v1 as components  # Ajout de l'importation
 from streamlit_navigation_bar import st_navbar
+import pandas as pd
+import io
+from google.colab import auth
+from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 
 pages = [
         "Flashcards",
@@ -226,6 +233,8 @@ if page == "Flashcards":
                 
         # Charger les flashcards à partir d'un fichier CSV
         st.header("Charger des flashcards à partir d'un fichier CSV")
+        
+        # Option 1 : Charger à partir d'un fichier local
         uploaded_file = st.file_uploader("Choisir un fichier CSV", type=["csv"])
         if uploaded_file is not None:
             df = pd.read_csv(uploaded_file)
@@ -233,6 +242,32 @@ if page == "Flashcards":
             for index, row in df.iterrows():
                 st.session_state.flashcards[row["question"]] = row["answer"]
             st.success("Flashcards chargées à partir du fichier CSV !")
+        
+        # Option 2 : Charger à partir d'un lien Google Drive
+        st.header("Charger des flashcards à partir d'un lien Google Drive")
+        drive_link = st.text_input("Entrez le lien Google Drive :")
+        
+        if drive_link:
+                try:
+                    # Authentification Google Drive
+                    auth.authenticate_user()
+                    creds = Credentials.from_authorized_user_info(info=None, scopes=['https://www.googleapis.com/auth/drive.readonly'])
+                    service = build('drive', 'v3', credentials=creds)
+        
+                    # Extraire l'ID du fichier du lien
+                    file_id = drive_link.split('/')[-2]  # Assurez-vous que le lien est au format correct
+        
+                    # Télécharger le fichier CSV
+                    request = service.files().get_media(fileId=file_id)
+                    file_content = io.BytesIO(request.execute())
+        
+                    # Lire le fichier CSV avec pandas
+                    df = pd.read_csv(file_content)   
+                    # Assurez-vous que le fichier CSV a des colonnes nommées "question" et "answer"
+                    for index, row in df.iterrows():
+                        st.session_state.flashcards[row["question"]] = row["answer"]
+                    st.success("Flashcards chargées à partir du lien Google Drive !")
+
         
         # Fonction pour sauvegarder les flashcards dans un fichier CSV
         def save_flashcards_to_csv(flashcards, filename="flashcards.csv"):
