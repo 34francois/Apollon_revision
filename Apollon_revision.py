@@ -2,6 +2,7 @@ import streamlit as st
 import random
 import pandas as pd
 import base64
+import streamlit.components.v1 as components  # Ajout de l'importation
 
 
 # Initialiser les flashcards (vide au départ)
