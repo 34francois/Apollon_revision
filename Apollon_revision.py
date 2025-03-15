@@ -355,7 +355,7 @@ if page == "QCM":
     }
 
     .choice {
-        width: 100px;
+        width: 500px;
         height: 100px;
         background-color: lightblue;
         border: 1px solid black;
