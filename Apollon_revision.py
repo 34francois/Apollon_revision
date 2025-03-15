@@ -24,11 +24,16 @@ if selected_tab == "Polygones":
         """,
         unsafe_allow_html=True,
     )
-
+    
+    # Créer un conteneur pour le canevas
+    st.markdown(
+        '<div id="container" style="width: 600px; height: 400px;"></div>',
+        unsafe_allow_html=True,
+    )
+    
     # Afficher le composant de dessin de polygones en utilisant JavaScript
-    st.components.v1.html(
+    st.write(
         """
-        <div id="container" style="width: 600px; height: 400px;"></div>
         <script>
         var width = 600;
         var height = 400;
@@ -72,7 +77,7 @@ if selected_tab == "Polygones":
         });
         </script>
         """,
-        height=400, # Ajustez la hauteur si nécessaire
+        unsafe_allow_html=True,
     )
 
 if selected_tab == "Chronologie":
