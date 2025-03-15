@@ -244,26 +244,29 @@ if page == "Flashcards":
         drive_link = st.text_input("Entrez le lien Google Drive :")
         
         if drive_link:
-                try:
-                    # Authentification Google Drive
-                    auth.authenticate_user()
-                    creds = Credentials.from_authorized_user_info(info=None, scopes=['https://www.googleapis.com/auth/drive.readonly'])
-                    service = build('drive', 'v3', credentials=creds)
-        
-                    # Extraire l'ID du fichier du lien
-                    file_id = drive_link.split('/')[-2]  # Assurez-vous que le lien est au format correct
-        
-                    # Télécharger le fichier CSV
-                    request = service.files().get_media(fileId=file_id)
-                    file_content = io.BytesIO(request.execute())
-        
-                    # Lire le fichier CSV avec pandas
-                    df = pd.read_csv(file_content)   
-                    # Assurez-vous que le fichier CSV a des colonnes nommées "question" et "answer"
-                    for index, row in df.iterrows():
-                        st.session_state.flashcards[row["question"]] = row["answer"]
-                    st.success("Flashcards chargées à partir du lien Google Drive !")
+            try:
+                # Authentification Google Drive
+                auth.authenticate_user()
+                creds = Credentials.from_authorized_user_info(info=None, scopes=['https://www.googleapis.com/auth/drive.readonly'])
+                service = build('drive', 'v3', credentials=creds)
 
+                # Extraire l'ID du fichier du lien
+                file_id = drive_link.split('/')[-2] 
+
+                # Télécharger le fichier CSV
+                request = service.files().get_media(fileId=file_id)
+                file_content = io.BytesIO(request.execute())
+
+                # Lire le fichier CSV avec pandas
+                df = pd.read_csv(file_content)
+
+                # Traiter le DataFrame
+                for index, row in df.iterrows():
+                    st.session_state.flashcards[row["question"]] = row["answer"]
+                st.success("Flashcards chargées à partir du lien Google Drive !")
+
+            except HttpError as error:
+                st.error(f"Erreur lors du chargement du fichier : {error}")
 
         
         # Bouton pour sauvegarder et télécharger les flashcards
