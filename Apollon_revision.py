@@ -7,7 +7,14 @@ import base64
 # Initialiser les flashcards (vide au départ)
 if "flashcards" not in st.session_state:
     st.session_state.flashcards = {}
-    
+
+if "quizzes" not in st.session_state:
+    st.session_state.quizzes = {}
+# Créer les onglets
+tabs = ["Flashcards", "QCM", "Chronologie"]
+selected_tab = st.sidebar.radio("Sélectionnez un onglet", tabs)
+
+
 if selected_tab == "Chronologie":
     st.header("Chronologie")
 
@@ -44,13 +51,6 @@ if selected_tab == "Chronologie":
         unsafe_allow_html=True,
     )
 
-
-
-if "quizzes" not in st.session_state:
-    st.session_state.quizzes = {}
-# Créer les onglets
-tabs = ["Flashcards", "QCM", "Chronologie"]
-selected_tab = st.sidebar.radio("Sélectionnez un onglet", tabs)
 
 if selected_tab == "Flashcards":
     # Initialiser l'état de l'application
