@@ -5,11 +5,7 @@ import base64
 import streamlit.components.v1 as components
 from streamlit_navigation_bar import st_navbar
 import io
-from google.colab import auth
-from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
-from googleapiclient.discovery import build
-from googleapiclient.errors import HttpError
+
 
 # Configuration de la barre de navigation
 pages = ["Flashcards", "QCM", "Chronologie", "Polygones"]
@@ -239,34 +235,6 @@ if page == "Flashcards":
                 st.session_state.flashcards[row["question"]] = row["answer"]
             st.success("Flashcards chargées à partir du fichier CSV !")
         
-        # Option 2 : Charger à partir d'un lien Google Drive
-        st.header("Charger des flashcards à partir d'un lien Google Drive")
-        drive_link = st.text_input("Entrez le lien Google Drive :")
-        
-        if drive_link:
-            try:
-                # Authentification Google Drive
-                auth.authenticate_user()
-                creds = Credentials.from_authorized_user_info(info=None, scopes=['https://www.googleapis.com/auth/drive.readonly'])
-                service = build('drive', 'v3', credentials=creds)
-
-                # Extraire l'ID du fichier du lien
-                file_id = drive_link.split('/')[-2] 
-
-                # Télécharger le fichier CSV
-                request = service.files().get_media(fileId=file_id)
-                file_content = io.BytesIO(request.execute())
-
-                # Lire le fichier CSV avec pandas
-                df = pd.read_csv(file_content)
-
-                # Traiter le DataFrame
-                for index, row in df.iterrows():
-                    st.session_state.flashcards[row["question"]] = row["answer"]
-                st.success("Flashcards chargées à partir du lien Google Drive !")
-
-            except HttpError as error:
-                st.error(f"Erreur lors du chargement du fichier : {error}")
 
         
         # Bouton pour sauvegarder et télécharger les flashcards
