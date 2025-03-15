@@ -359,7 +359,7 @@ if page == "QCM":
         height: 100px;
         background-color: lightblue;
         border: 1px solid black;
-        margin: 10px;
+        margin: 10px auto;
         display: inline-block;
         cursor: pointer;
         line-height: 100px; /* Centre le texte verticalement */
