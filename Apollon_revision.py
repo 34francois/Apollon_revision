@@ -8,7 +8,9 @@ import streamlit.components.v1 as components  # Ajout de l'importation
 # Initialiser les flashcards (vide au départ)
 if "flashcards" not in st.session_state:
     st.session_state.flashcards = {}
-
+# Initialiser les statistiques des flashcards
+if "flashcard_stats" not in st.session_state:
+    st.session_state.flashcard_stats = {}
 if "quizzes" not in st.session_state:
     st.session_state.quizzes = {}
 # Créer les onglets
