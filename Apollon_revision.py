@@ -163,8 +163,8 @@ if page == "Chronologie":
 
 if page == "Flashcards":
     # Initialiser l'état de l'application
-    if "current_card" not in st.session_state:
-        st.session_state.current_card = ""  # Vide au départ
+    #if "current_card" not in st.session_state:
+       # st.session_state.current_card = ""  # Vide au départ
     with st.expander("Créer les flashcards"):
         # Rubrique pour créer des flashcards
         st.header("Créer des flashcards")
