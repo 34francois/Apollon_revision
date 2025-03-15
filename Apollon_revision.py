@@ -11,9 +11,74 @@ if "flashcards" not in st.session_state:
 if "quizzes" not in st.session_state:
     st.session_state.quizzes = {}
 # Créer les onglets
-tabs = ["Flashcards", "QCM", "Chronologie"]
+tabs = ["Flashcards", "QCM", "Chronologie", "Polygones"]
 selected_tab = st.sidebar.radio("Sélectionnez un onglet", tabs)
 
+if selected_tab == "Polygones":
+    st.header("Tracer des polygones")
+
+    # Inclure Konva.js
+    st.markdown(
+        """
+        <script src="https://unpkg.com/konva@8/konva.min.js"></script>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    # Créer un conteneur pour le canevas
+    st.markdown(
+        '<div id="container" style="width: 600px; height: 400px;"></div>',
+        unsafe_allow_html=True,
+    )
+
+    # Code JavaScript pour initialiser Konva.js et gérer le dessin
+    st.markdown(
+        """
+        <script>
+        var width = 600;
+        var height = 400;
+
+        var stage = new Konva.Stage({
+            container: 'container',
+            width: width,
+            height: height
+        });
+
+        var layer = new Konva.Layer();
+        stage.add(layer);
+
+        var isDrawing = false;
+        var points = [];
+        var polygon;
+
+        stage.on('mousedown', function(e) {
+            if (!isDrawing) {
+                isDrawing = true;
+                points = [stage.getPointerPosition().x, stage.getPointerPosition().y];
+                polygon = new Konva.Line({
+                    points: points,
+                    stroke: 'black',
+                    strokeWidth: 2,
+                    closed: false,
+                    fill: 'lightblue' // Remplir le polygone
+                });
+                layer.add(polygon);
+            } else {
+                points.push(stage.getPointerPosition().x, stage.getPointerPosition().y);
+                polygon.points(points);
+            }
+            layer.batchDraw();
+        });
+
+        stage.on('dblclick', function() {
+            isDrawing = false;
+            polygon.closed(true); // Fermer le polygone au double clic
+            layer.batchDraw();
+        });
+        </script>
+        """,
+        unsafe_allow_html=True,
+    )
 
 if selected_tab == "Chronologie":
     st.header("Chronologie")
