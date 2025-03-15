@@ -8,7 +8,7 @@ import io
 
 
 # Configuration de la barre de navigation
-pages = ["Flashcards", "QCM", "Chronologie", "Polygones"]
+pages = ["Flashcards", "QCM", "Chronologie"]
 styles = {
     "nav": {"background-color": "#9ea4f0", "justify-content": "left"},
     "img": {"padding-right": "14px"},
@@ -47,58 +47,6 @@ def download_csv(filename):
     href = f'<a href="data:file/csv;base64,{b64}" download="{filename}">Télécharger le fichier CSV</a>'
     st.markdown(href, unsafe_allow_html=True)
 
-
-if page == "Polygones":
-    st.header("Tracer des polygones")
-
-    # HTML et JavaScript pour le composant
-    component_code = """
-    <div>
-        <canvas id="canvas" width="600" height="400"></canvas>
-    </div>
-    <script>
-        const canvas = new fabric.Canvas('canvas');
-
-        let isDrawing = false;
-        let points = [];
-        let polygon;
-
-        canvas.on('mouse:down', function(options) {
-            if (!isDrawing) {
-                isDrawing = true;
-                points = [options.pointer.x, options.pointer.y];
-                polygon = new fabric.Polygon(points, {
-                    stroke: 'black',
-                    strokeWidth: 2,
-                    fill: 'lightblue',
-                    objectCaching: false 
-                });
-                canvas.add(polygon);
-            } else {
-                points.push(options.pointer.x, options.pointer.y);
-                polygon.set({ points: points });
-                canvas.renderAll();
-            }
-        });
-
-        canvas.on('mouse:up', function() {
-            isDrawing = false;
-        });
-    </script>
-    """
-
-    # Inclure Fabric.js
-    components.html(
-        f"""
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.2.4/fabric.min.js"></script>
-        {component_code} 
-        <script>
-        console.log(canvas); // Verify canvas initialization
-        </script>
-        """,
-        height=450,
-    )
-    st.write("Fabric.js loaded") # Check Fabric.js inclusion
 
 if page == "Chronologie":
     st.header("Chronologie")
