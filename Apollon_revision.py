@@ -3,7 +3,41 @@ import random
 import pandas as pd
 import base64
 import streamlit.components.v1 as components  # Ajout de l'importation
+from streamlit_navigation_bar import st_navbar
 
+pages = [
+        "Flashcards",
+        "QCM",
+        "Chronologie",
+        "Polygones"
+    ]
+
+styles = {
+    "nav": {
+        "background-color": "#26827a",
+        "justify-content": "left",
+    },
+    "img": {
+        "padding-right": "14px",
+    },
+    "span": {
+        "color": "white",
+        "padding": "14px",
+    },
+    "active": {
+        "background-color": "white",
+        "color": "var(--text-color)",
+        "font-weight": "normal",
+        "padding": "14px",
+    }
+}
+
+options = {
+    "show_menu": False,
+    "show_sidebar": False,
+}
+
+page = st_navbar(pages, styles=styles)
 
 # Initialiser les flashcards (vide au départ)
 if "flashcards" not in st.session_state:
