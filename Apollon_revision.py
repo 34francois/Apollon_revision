@@ -34,6 +34,17 @@ if selected_tab == "Flashcards":
             for index, row in df.iterrows():
                 st.session_state.flashcards[row["question"]] = row["answer"]
             st.success("Flashcards chargées à partir du fichier CSV !")
+            
+        # Fonction pour sauvegarder les flashcards dans un fichier CSV
+        def save_flashcards_to_csv(flashcards, filename="flashcards.csv"):
+            df = pd.DataFrame(list(flashcards.items()), columns=["question", "answer"])
+            df.to_csv(filename, index=False)
+            return filename
+        
+        # Bouton pour sauvegarder les flashcards
+        if st.button("Sauvegarder les flashcards"):
+            filename = save_flashcards_to_csv(st.session_state.flashcards)
+            st.success(f"Flashcards sauvegardées dans {filename}")
         
     # Sélectionner une flashcard aléatoire si les flashcards ne sont pas vides
     if st.session_state.flashcards:
