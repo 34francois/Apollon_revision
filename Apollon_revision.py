@@ -40,10 +40,10 @@ if selected_tab == "Chronologie":
     st.components.v1.html(
         f"""
         <div id="timeline">
-            <div class="fixed-square" style="left: 50px; top: 50px;"></div>
-            <div class="fixed-square" style="left: 200px; top: 50px;"></div>
-            <div class="fixed-square" style="left: 350px; top: 50px;"></div>
-            <div class="fixed-square" style="left: 500px; top: 50px;"></div>
+            <div class="fixed-square" style="left: 50px; top: 200px;"></div>
+            <div class="fixed-square" style="left: 200px; top: 200px;"></div>
+            <div class="fixed-square" style="left: 350px; top: 200px;"></div>
+            <div class="fixed-square" style="left: 500px; top: 200px;"></div>
         </div>
         <script>
         const datesData = {dates_json};
@@ -94,7 +94,7 @@ if selected_tab == "Chronologie":
         }});
         </script>
         """,
-        height=200,
+        height=800,
     )
 
 if selected_tab == "Flashcards":
