@@ -1,1 +1,1 @@
-streamlit-community-navigation-bar
+pip install streamlit-community-navigation-bar
