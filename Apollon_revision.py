@@ -64,7 +64,7 @@ st.markdown(
         border: 1px solid #ccc;
         padding: 20px;
         border-radius: 10px;
-        background-color: #f0f0f0;
+        background-color: #dec237;
         box-shadow: 5px 5px 10px #888888;
         display: flex;
         align-items: center;
