@@ -61,7 +61,7 @@ if selected_tab == "Flashcards":
         flashcards_df = pd.DataFrame(list(st.session_state.flashcards.items()), columns=["question", "answer"])
         
         # Afficher st.data_editor pour modifier les flashcards
-        edited_df = st.data_editor(flashcards_df, key="flashcards_editor")
+        edited_df = st.data_editor(flashcards_df, key="flashcards_editor", num_rows("dynamic"))
         
         # Mettre à jour les flashcards avec les modifications
         st.session_state.flashcards = dict(zip(edited_df["question"], edited_df["answer"]))
