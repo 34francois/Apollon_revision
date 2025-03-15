@@ -33,7 +33,33 @@ if selected_tab == "Chronologie":
     # Afficher la chronologie sous forme de liste
     for index, row in dates_df.iterrows():
         st.markdown(f"**{row['date']}**: {row['événement']}")
+    # Convertir les dates en format JSON pour JavaScript
+    dates_json = dates_df.to_json(orient="records")
 
+    # Afficher le composant chronologie en utilisant JavaScript
+    st.markdown(
+        f"""
+        <div id="timeline"></div>
+        <script>
+        const datesData = {dates_json};
+
+        // Créer les carrés pour chaque date
+        const timelineContainer = document.getElementById('timeline');
+        datesData.forEach(date => {{
+            const square = document.createElement('div');
+            square.style.width = '100px';
+            square.style.height = '100px';
+            square.style.backgroundColor = 'lightblue';
+            square.style.border = '1px solid black';
+            square.style.margin = '10px';
+            square.style.display = 'inline-block';
+            square.textContent = date.date + ': ' + date.événement;
+            timelineContainer.appendChild(square);
+        }});
+        </script>
+        """,
+        unsafe_allow_html=True,
+    )
 
 if selected_tab == "Flashcards":
     # Initialiser l'état de l'application
