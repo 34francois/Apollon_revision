@@ -19,7 +19,6 @@ if selected_tab == "Chronologie":
     st.header("Chronologie")
 
     # Charger les dates depuis un fichier CSV ou une autre source de données
-    # (Remplacez par votre propre logique de chargement de données)
     dates_df = pd.DataFrame(
         [
             {"date": "2023-10-26", "événement": "Événement 1"},
@@ -28,24 +27,35 @@ if selected_tab == "Chronologie":
         ]
     )
 
-    # Afficher le composant chronologie en utilisant JavaScript
+    # Inclure les fichiers CSS et JavaScript de vis.js
     st.markdown(
         """
-        <div id="timeline"></div>
-        <script>
-        // Code JavaScript pour créer la chronologie (à adapter avec une bibliothèque comme vis.js)
-        // ...
-        </script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css" rel="stylesheet" type="text/css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
         """,
         unsafe_allow_html=True,
     )
 
-    # Passer les données de dates au composant JavaScript
+    # Créer un conteneur pour la chronologie
+    st.markdown(
+        '<div id="visualization"></div>',
+        unsafe_allow_html=True,
+    )
+
+    # Convertir les données en format compatible avec vis.js
+    items = [
+        {"id": i, "content": row["événement"], "start": row["date"]}
+        for i, row in dates_df.iterrows()
+    ]
+
+    # Initialiser la chronologie avec JavaScript
     st.markdown(
         f"""
-        <script>
-        const datesData = {dates_df.to_json(orient="records")};
-        // ... (utiliser datesData pour créer la chronologie)
+        <script type="text/javascript">
+            var container = document.getElementById('visualization');
+            var items = new vis.DataSet({items});
+            var options = {{}};
+            var timeline = new vis.Timeline(container, items, options);
         </script>
         """,
         unsafe_allow_html=True,
