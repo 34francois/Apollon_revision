@@ -56,6 +56,38 @@ if selected_tab == "Flashcards":
             filename = save_flashcards_to_csv(st.session_state.flashcards)
             st.success(f"Flashcards sauvegardées dans {filename}")
             download_csv(filename)
+
+        # Fonction pour modifier une flashcard
+        def edit_flashcard(question, answer):
+            st.session_state.flashcards[question] = answer
+            st.success("Flashcard modifiée !")
+        
+        # Fonction pour supprimer une flashcard
+        def delete_flashcard(question):
+            del st.session_state.flashcards[question]
+            st.success("Flashcard supprimée !")
+        
+        # Afficher les flashcards et les options de modification/suppression
+        if st.session_state.flashcards:
+            st.header("Flashcards existantes")
+            for question, answer in st.session_state.flashcards.items():
+                col1, col2 = st.columns(2)
+                with col1:
+                    st.write(f"**Question :** {question}")
+                    st.write(f"**Réponse :** {answer}")
+                with col2:
+                    if st.button(f"Modifier {question}"):
+                        with st.form(f"edit_card_{question}"):
+                            new_question = st.text_input("Nouvelle question :", question)
+                            new_answer = st.text_input("Nouvelle réponse :", answer)
+                            if st.form_submit_button("Enregistrer"):
+                                if new_question != question:
+                                    del st.session_state.flashcards[question]  # Supprimer l'ancienne question
+                                    st.session_state.flashcards[new_question] = new_answer  # Ajouter la nouvelle question
+                                else:
+                                    edit_flashcard(question, new_answer)
+                    if st.button(f"Supprimer {question}"):
+                        delete_flashcard(question)
         
     # Sélectionner une flashcard aléatoire si les flashcards ne sont pas vides
     if st.session_state.flashcards:
