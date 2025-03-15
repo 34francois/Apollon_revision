@@ -100,8 +100,16 @@ if selected_tab == "Chronologie":
             }});
         }});
 
-        // Styliser les carrés fixes (inchangé)
-        // ...
+        // Styliser les carrés fixes
+                const fixedSquares = document.querySelectorAll('.fixed-square');
+                fixedSquares.forEach(square => {{
+                    square.style.width = '50px';
+                    square.style.height = '50px';
+                    square.style.backgroundColor = 'gray';
+                    square.style.border = '1px solid black';
+                    square.style.position = 'absolute'; // Important pour le positionnement
+                }});
+
 
         // Fonction pour vérifier le chevauchement entre deux éléments
         function isOverlapping(element1, element2) {{
