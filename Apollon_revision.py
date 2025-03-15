@@ -58,11 +58,11 @@ if selected_tab == "Chronologie":
             square.style.border = '1px solid black';
             square.style.margin = '10px';
             square.style.display = 'inline-block';
-            square.style.position = 'absolute'; // Pour permettre le déplacement
+            square.style.position = 'absolute';
             square.textContent = date.date + ': ' + date.événement;
             timelineContainer.appendChild(square);
 
-            // Gestion du déplacement
+            // ... (Gestion du déplacement - modifiée)
             let isDragging = false;
             let offsetX, offsetY;
 
@@ -74,6 +74,22 @@ if selected_tab == "Chronologie":
 
             document.addEventListener('mouseup', () => {{
                 isDragging = false;
+
+                // Vérifier le chevauchement avec les carrés fixes
+                const fixedSquares = document.querySelectorAll('.fixed-square');
+                fixedSquares.forEach(fixedSquare => {{
+                    if (isOverlapping(square, fixedSquare)) {{
+                        // Centrer le carré sur le carré fixe
+                        square.style.left = (fixedSquare.offsetLeft + (fixedSquare.offsetWidth - square.offsetWidth) / 2) + 'px';
+                        square.style.top = (fixedSquare.offsetTop + (fixedSquare.offsetHeight - square.offsetHeight) / 2) + 'px';
+
+                        // Changer la couleur du carré
+                        square.style.backgroundColor = 'lightgreen'; 
+                    }} else {{
+                        // Remettre la couleur d'origine si pas de chevauchement
+                        square.style.backgroundColor = 'lightblue';
+                    }}
+                }});
             }});
 
             document.addEventListener('mousemove', (e) => {{
@@ -83,15 +99,22 @@ if selected_tab == "Chronologie":
                 }}
             }});
         }});
-        // Styliser les carrés fixes
-        const fixedSquares = document.querySelectorAll('.fixed-square');
-        fixedSquares.forEach(square => {{
-            square.style.width = '50px';
-            square.style.height = '50px';
-            square.style.backgroundColor = 'gray';
-            square.style.border = '1px solid black';
-            square.style.position = 'absolute';
-        }});
+
+        // Styliser les carrés fixes (inchangé)
+        // ...
+
+        // Fonction pour vérifier le chevauchement entre deux éléments
+        function isOverlapping(element1, element2) {{
+            const rect1 = element1.getBoundingClientRect();
+            const rect2 = element2.getBoundingClientRect();
+
+            return !(
+                rect1.right < rect2.left ||
+                rect1.left > rect2.right ||
+                rect1.bottom < rect2.top ||
+                rect1.top > rect2.bottom
+            );
+        }}
         </script>
         """,
         height=800,
