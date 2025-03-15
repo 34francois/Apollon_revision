@@ -337,4 +337,57 @@ if page == "Flashcards":
 
 if page == "QCM":
     st.header("QCM")
+    <div id="quiz-container">
+      <div id="question"></div>
+      <div id="choices">
+        <div class="choice" data-choice="A"></div>
+        <div class="choice" data-choice="B"></div>
+        <div class="choice" data-choice="C"></div>
+        <div class="choice" data-choice="D"></div>
+      </div>
+      <div id="result"></div>
+    </div>
+    const quizContainer = document.getElementById('quiz-container');
+    const questionElement = document.getElementById('question');
+    const choicesElement = document.getElementById('choices');
+    const resultElement = document.getElementById('result');
+    
+    const questions = [
+      {
+        question: "Quelle est la capitale de la France ?",
+        choices: ["Paris", "Londres", "Berlin", "Madrid"],
+        answer: "A"
+      },
+      // Ajoute d'autres questions ici
+    ];
+    
+    let currentQuestion = 0;
+    
+    function loadQuestion() {
+      const question = questions[currentQuestion];
+      questionElement.textContent = question.question;
+    
+      const choices = question.choices;
+      for (let i = 0; i < choices.length; i++) {
+        const choiceElement = choicesElement.children[i];
+        choiceElement.textContent = choices[i];
+        choiceElement.onclick = () => checkAnswer(choices[i]);
+      }
+    }
+    
+    function checkAnswer(choice) {
+      const question = questions[currentQuestion];
+      if (choice === question.choices[question.answer.charCodeAt(0) - 'A'.charCodeAt(0)]) {
+        resultElement.textContent = "Correct !";
+      } else {
+        resultElement.textContent = "Incorrect.";
+      }
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        loadQuestion();
+      } else {
+        resultElement.textContent = "Fin du QCM.";
+      }
+    }
+    loadQuestion();
 
