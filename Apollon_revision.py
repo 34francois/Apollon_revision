@@ -97,7 +97,7 @@ if page == "Flashcards":
                 border: 1px solid #ccc;
                 padding: 20px;
                 border-radius: 10px;
-                background-color: #70b9c4;
+                background-color: #c47094;
                 box-shadow: 5px 5px 10px #888888;
                 display: flex;
                 align-items: center;
