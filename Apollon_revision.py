@@ -19,8 +19,8 @@ if "df" not in st.session_state:
         "REPONSE_FAUSSE_6": pd.Series(dtype='str'),
         "REPONSE_FAUSSE_7": pd.Series(dtype='str'),
         "REPONSE_FAUSSE_8": pd.Series(dtype='str'),
-        "NBR_JUSTE" pd.Series(dtype='int'),
-        "NBR_FAUX" pd.Series(dtype='int'),
+        "NBR_JUSTE" : pd.Series(dtype='int'),
+        "NBR_FAUX" : pd.Series(dtype='int'),
     })
 
 # Configuration de la barre de navigation
