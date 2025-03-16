@@ -62,3 +62,6 @@ with st.sidebar:
             # Append the new row to the DataFrame
             st.session_state.df = pd.concat([st.session_state.df, pd.DataFrame([new_row])], ignore_index=True)
     st.data_editor(st.session_state.df)
+    if st.button("mettre à jour")
+        st.session_state.df = st.data_editor
+        st.rerun()
