@@ -136,12 +136,3 @@ if page == "Flashcards":
     """
     st.markdown(html, unsafe_allow_html=True)
 
-    # Dans la section if page == "Flashcards":
-    if st.button("Flashcard précédente"):
-        current_index = list(st.session_state.flashcards.keys()).index(st.session_state.current_card)
-        st.session_state.current_card = list(st.session_state.flashcards.keys())[current_index - 1] if current_index > 0 else list(st.session_state.flashcards.keys())[-1]
-    if st.button("Flashcard suivante"):
-        current_index = list(st.session_state.flashcards.keys()).index(st.session_state.current_card)
-        st.session_state.current_card = list(st.session_state.flashcards.keys())[(current_index + 1) % len(st.session_state.flashcards)]
-
-    
