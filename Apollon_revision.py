@@ -255,6 +255,10 @@ if page == "QCM":
             else: 
                 # Affichage initial du bouton
                 st.markdown(f"<div class='answer-button'>{answer}</div>", unsafe_allow_html=True)
+
+
+    
+    
     # Bouton pour passer à la question suivante
     if st.button("Question suivante"):
         st.session_state.qcm_current_index = (st.session_state.qcm_current_index + 1) % len(st.session_state.df)
