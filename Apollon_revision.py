@@ -74,7 +74,7 @@ if page == "Flashcards":
         if is_mobile:
             width = "100%"  # 90% de la largeur de l'écran sur mobile
         else:
-            width = "600px"  # Largeur fixe sur ordinateur
+            width = "300px"  # Largeur fixe sur ordinateur
         
 
         # Définir les styles CSS pour les flashcards
