@@ -238,7 +238,7 @@ if page == "QCM":
 
     
     # Afficher la question
-    st.markdown(f"<div style='background-color: #f0f0f5; padding: 20px; border-radius: 10px;'>{question}</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='question-square'>{question}</div>", unsafe_allow_html=True)
 
     # Afficher les réponses avec des clés uniques en utilisant hash()
     cols = st.columns(2)
@@ -246,11 +246,14 @@ if page == "QCM":
         with cols[i % 2]:
             key = hash(f"{question}_{answer}")  # Générer une clé unique avec hash()
             if st.button(answer, key=key):
+                # Styles additionnels après clic
                 if answer == correct_answer:
-                    st.success("Bonne réponse !")
+                    st.markdown(f"<div class='answer-button' style='background-color: #90ee90;'>{answer}</div>", unsafe_allow_html=True) # Vert pour la bonne réponse
                 else:
-                    st.error("Mauvaise réponse.")
-
+                    st.markdown(f"<div class='answer-button' style='background-color: #ffcccb;'>{answer}</div>", unsafe_allow_html=True) # Rouge pour la mauvaise réponse
+            else: 
+                # Affichage initial du bouton
+                st.markdown(f"<div class='answer-button'>{answer}</div>", unsafe_allow_html=True)
     # Bouton pour passer à la question suivante
     if st.button("Question suivante"):
         st.session_state.qcm_current_index = (st.session_state.qcm_current_index + 1) % len(st.session_state.df)
