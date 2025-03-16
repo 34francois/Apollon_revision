@@ -146,7 +146,7 @@ if page == "Flashcards":
         st.session_state.current_card = list(st.session_state.flashcards.keys())[(current_index + 1) % len(st.session_state.flashcards)]
 
     with col1:
-    if st.button("Juste  <i class='fas fa-check' style='color:green;'></i>", unsafe_allow_html=True):
+    if st.button("Juste"):
         if st.session_state.current_card in st.session_state.flashcards:
             st.session_state.flashcards[st.session_state.current_card]["correct"] += 1
         else:
@@ -154,7 +154,7 @@ if page == "Flashcards":
         st.session_state.current_card = random.choice(list(st.session_state.flashcards.keys()))  # Passer à la carte suivante
     
     with col2:
-        if st.button("Faux  <i class='fas fa-times' style='color:red;'></i>", unsafe_allow_html=True):
+        if st.button("Faux"):
             if st.session_state.current_card in st.session_state.flashcards:
                 st.session_state.flashcards[st.session_state.current_card]["incorrect"] += 1
             else:
