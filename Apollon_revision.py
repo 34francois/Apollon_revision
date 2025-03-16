@@ -37,58 +37,59 @@ page = st_navbar(pages, styles=styles)
 
 
 with st.sidebar:
+    with st.expander("Charger des flashcards d'un CSV")
+        # Ajout de la fonctionnalité de téléchargement de CSV
+        uploaded_file = st.file_uploader("Charger un fichier CSV", type=["csv"])
+        
+        if uploaded_file is not None:
+            try:
+                # Charger le CSV dans un DataFrame
+                new_flashcards = pd.read_csv(uploaded_file)
+                
+                # Afficher les questions dans un tableau
+                st.subheader("Questions du fichier CSV:")
+                st.dataframe(new_flashcards)
+                
+                # Bouton pour charger les données dans df
+                
+                if st.button("Charger les flashcards"):
+                    # Vérifier si les colonnes nécessaires sont présentes
+                    required_columns = ["INTITULE_QUESTION", "REPONSE_JUSTE"]
+                    if all(col in new_flashcards.columns for col in required_columns):
+                        # Concaténer le nouveau DataFrame avec le DataFrame existant
+                        st.session_state.df = pd.concat([st.session_state.df, new_flashcards], ignore_index=True)
+                        st.success("Flashcards chargées avec succès !")
+                    else:
+                        st.error("Le fichier CSV doit contenir les colonnes 'INTITULE_QUESTION' et 'REPONSE_JUSTE'.")
     
-    # Ajout de la fonctionnalité de téléchargement de CSV
-    uploaded_file = st.file_uploader("Charger un fichier CSV", type=["csv"])
+            except Exception as e:
+                st.error(f"Erreur lors du chargement du fichier CSV : {e}")
+                
+    with st.expander("Créer des flashcards")
     
-    if uploaded_file is not None:
-        try:
-            # Charger le CSV dans un DataFrame
-            new_flashcards = pd.read_csv(uploaded_file)
-            
-            # Afficher les questions dans un tableau
-            st.subheader("Questions du fichier CSV:")
-            st.dataframe(new_flashcards)
-            
-            # Bouton pour charger les données dans df
-            
-            if st.button("Charger les flashcards"):
-                # Vérifier si les colonnes nécessaires sont présentes
-                required_columns = ["INTITULE_QUESTION", "REPONSE_JUSTE"]
-                if all(col in new_flashcards.columns for col in required_columns):
-                    # Concaténer le nouveau DataFrame avec le DataFrame existant
-                    st.session_state.df = pd.concat([st.session_state.df, new_flashcards], ignore_index=True)
-                    st.success("Flashcards chargées avec succès !")
-                else:
-                    st.error("Le fichier CSV doit contenir les colonnes 'INTITULE_QUESTION' et 'REPONSE_JUSTE'.")
-
-        except Exception as e:
-            st.error(f"Erreur lors du chargement du fichier CSV : {e}")
-
+        st.header("Créer des flashcards")
+        question = st.text_input("Question :")
+        reponse = st.text_input("Réponse :")
     
-    st.header("Créer des flashcards")
-    question = st.text_input("Question :")
-    reponse = st.text_input("Réponse :")
-
-    if st.button("Ajouter Flashcard"):
-            # Create a new row as a dictionary
-            new_row = {
-                "INTITULE_QUESTION": question,
-                "REPONSE_JUSTE": reponse,
-                "REPONSE_FAUSSE_1": "",  # Add or modify other columns as needed
-                "REPONSE_FAUSSE_2": "",
-                "REPONSE_FAUSSE_3": "",
-                "REPONSE_FAUSSE_4": "",
-                "REPONSE_FAUSSE_5": "",
-                "REPONSE_FAUSSE_6": "",
-                "REPONSE_FAUSSE_7": "",
-                "REPONSE_FAUSSE_8": "",
-                "NBR_JUSTE": 0,
-                "NBR_FAUX": 0
-            }
-    
-            # Append the new row to the DataFrame
-            st.session_state.df = pd.concat([st.session_state.df, pd.DataFrame([new_row])], ignore_index=True)
+        if st.button("Ajouter Flashcard"):
+                # Create a new row as a dictionary
+                new_row = {
+                    "INTITULE_QUESTION": question,
+                    "REPONSE_JUSTE": reponse,
+                    "REPONSE_FAUSSE_1": "",  # Add or modify other columns as needed
+                    "REPONSE_FAUSSE_2": "",
+                    "REPONSE_FAUSSE_3": "",
+                    "REPONSE_FAUSSE_4": "",
+                    "REPONSE_FAUSSE_5": "",
+                    "REPONSE_FAUSSE_6": "",
+                    "REPONSE_FAUSSE_7": "",
+                    "REPONSE_FAUSSE_8": "",
+                    "NBR_JUSTE": 0,
+                    "NBR_FAUX": 0
+                }
+        
+                # Append the new row to the DataFrame
+                st.session_state.df = pd.concat([st.session_state.df, pd.DataFrame([new_row])], ignore_index=True)
     st.dataframe(st.session_state.df)
 
 
