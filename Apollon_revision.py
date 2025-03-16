@@ -240,21 +240,37 @@ if page == "QCM":
     # Afficher la question
     st.markdown(f"<div class='question-square'>{question}</div>", unsafe_allow_html=True)
 
-    # Afficher les réponses comme des carrés cliquables
+    # Afficher les réponses comme des carrés cliquables avec gestion du clic en JavaScript
     cols = st.columns(2)
     for i, answer in enumerate(all_answers):
         with cols[i % 2]:
             key = hash(f"{question}_{answer}")
-            
-            # Utiliser st.markdown pour créer des carrés cliquables
-            if st.markdown(f"<div class='answer-square' id='{key}' onclick='handleClick(this)' data-answer='{answer}'>{answer}</div>", unsafe_allow_html=True):
-                if answer == correct_answer:
-                    st.markdown(f"<div class='answer-button' style='background-color: #90ee90;'>{answer}</div>", unsafe_allow_html=True) # Vert pour la bonne réponse
-                else:
-                    st.markdown(f"<div class='answer-button' style='background-color: #ffcccb;'>{answer}</div>", unsafe_allow_html=True) # Rouge pour la mauvaise réponse
-            else: 
-                # Affichage initial du bouton
-                st.markdown(f"<div class='answer-button'>{answer}</div>", unsafe_allow_html=True)
+            is_correct = answer == correct_answer  # Vérifier si la réponse est correcte
+
+            # Utiliser st.markdown pour créer des carrés cliquables avec JavaScript inline
+            st.markdown(
+                f"""
+                <div class='answer-square' id='{key}' onclick='handleClick(this, {is_correct})'>
+                    {answer}
+                </div>
+                <script>
+                function handleClick(element, isCorrect) {{
+                    if (isCorrect) {{
+                        element.style.backgroundColor = '#90ee90'; // Vert pour la bonne réponse
+                        // Afficher le message de succès
+                        alert('Bonne réponse !');
+                    }} else {{
+                        element.style.backgroundColor = '#ffcccb'; // Rouge pour la mauvaise réponse
+                        // Afficher le message d'erreur
+                        alert('Mauvaise réponse.');
+                    }}
+                    // Désactiver le clic après la première réponse
+                    element.onclick = null;
+                }}
+                </script>
+                """,
+                unsafe_allow_html=True,
+            )
 
 
     
