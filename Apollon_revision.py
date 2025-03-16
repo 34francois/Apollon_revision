@@ -248,7 +248,7 @@ if page == "QCM":
             key = hash(f"{question}_{answer}")  # Générer une clé unique avec hash()
             if st.button(answer, key=key):
                 # Styles additionnels après clic
-            key = hash(f"{question}_{answer}")
+                key = hash(f"{question}_{answer}")
             
             # Utiliser st.markdown pour créer des carrés cliquables
             if st.markdown(f"<div class='answer-square' id='{key}' onclick='handleClick(this)' data-answer='{answer}'>{answer}</div>", unsafe_allow_html=True):
