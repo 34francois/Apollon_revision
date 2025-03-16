@@ -38,6 +38,35 @@ page = st_navbar(pages, styles=styles)
 
 def qcm_squares(question, all_answers, correct_answer):
     html_code = f"""
+    <style>
+    .question-square {{
+        background-color: #f0f0f5;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 3px 3px 5px #888888;
+    }}
+    .answer-square {{
+        background-color: #e0e0e5;
+        border: none;
+        padding: 15px 20px;
+        border-radius: 5px;
+        margin: 10px;
+        width: 100%;
+        text-align: center;
+        cursor: pointer;
+        box-shadow: 2px 2px 3px #888888;
+        transition: background-color 0.3s ease;
+        display: inline-block; 
+    }}
+    .answer-square:hover {{
+        background-color: #d0d0d5;
+    }}
+    </style>
+    <div class='question-square'>{question}</div>
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-around;">
+    """
+
     <div class='question-square'>{question}</div>
     <div style="display: flex; flex-wrap: wrap; justify-content: space-around;">
     """
@@ -236,36 +265,6 @@ if page == "QCM":
     all_answers = [correct_answer] + incorrect_answers
     random.shuffle(all_answers)
 
-    # Styles CSS pour les carrés
-    st.markdown(
-        """
-        <style>
-        .question-square {
-            background-color: #f0f0f5;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 3px 3px 5px #888888;
-        }
-        .answer-button {
-            background-color: #e0e0e5;
-            border: none;
-            padding: 15px 20px;
-            border-radius: 5px;
-            margin: 10px;
-            width: 100%;
-            text-align: center;
-            cursor: pointer;
-            box-shadow: 2px 2px 3px #888888;
-            transition: background-color 0.3s ease;
-        }
-        .answer-button:hover {
-            background-color: #d0d0d5;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
 
     
     # Afficher la question et les réponses avec le composant
