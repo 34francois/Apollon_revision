@@ -62,77 +62,43 @@ with st.sidebar:
 
 if page == "Flashcards":
     
-    # Dans la section if page == "Flashcards":
-    flashcards = {}
-    for index, row in st.session_state.df.iterrows():
-        flashcards[row['INTITULE_QUESTION']] = row['REPONSE_JUSTE']
-    st.session_state.flashcards = flashcards
+    if st.session_state.df.empty:
+        st.warning("Aucune flashcard créée pour le moment.")
+    else:
+        if "current_flashcard_index" not in st.session_state:
+            st.session_state.current_flashcard_index = 0
 
-    if "current_card" not in st.session_state:
-        st.session_state.current_card = list(st.session_state.flashcards.keys())[0] if st.session_state.flashcards else ""
-
+    # Afficher la flashcard courante
+    current_question = st.session_state.df.iloc[
+        st.session_state.current_flashcard_index
+    ]["INTITULE_QUESTION"]
+    current_answer = st.session_state.df.iloc[
+        st.session_state.current_flashcard_index
+    ]["REPONSE_JUSTE"]
     
-    # Définir les styles CSS pour les flashcards
     st.markdown(
-        """
-        <style>
-        .flip-card {
-            background-color: transparent;
-            width: 300px;
-            height: 200px;
-            perspective: 1000px;
-        }
-        .flip-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.8s;
-            transform-style: preserve-3d;
-        }
-        .flip-card:hover .flip-card-inner {
-            transform: rotateY(180deg);
-        }
-        .flip-card-front, .flip-card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            border: 1px solid #ccc;
-            padding: 20px;
-            border-radius: 10px;
-            background-color: #70b9c4;
-            box-shadow: 5px 5px 10px #888888;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .flip-card-front {
-            color: black;
-        }
-        .flip-card-back {
-            color: black;
-            transform: rotateY(180deg); 
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
+            f"""
+            <div class="flip-card">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <p>{current_question}</p>
+                </div>
+                <div class="flip-card-back">
+                  <p>{current_answer}</p> 
+                </div>
+              </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
-    # Dans la section if page == "Flashcards":
-    # (Le code HTML pour la flashcard que tu as fourni précédemment)
-    html = f"""
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <p>{st.session_state.current_card}</p>
-        </div>
-        <div class="flip-card-back">
-          <p>{st.session_state.flashcards[st.session_state.current_card] if st.session_state.current_card in st.session_state.flashcards else ""}</p> 
-        </div>
-      </div>
-    </div>
-    """
-    st.markdown(html, unsafe_allow_html=True)
+        # Bouton pour afficher la flashcard suivante
+        if st.button("Flashcard suivante"):
+            st.session_state.current_flashcard_index = (
+                st.session_state.current_flashcard_index + 1
+            ) % len(st.session_state.df)  # Boucle à la première flashcard si on arrive à la fin
+
+
+
+
 
