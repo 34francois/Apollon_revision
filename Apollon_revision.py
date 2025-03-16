@@ -68,7 +68,7 @@ if page == "Flashcards":
             st.session_state.current_flashcard_index = 0
 
         # Détecter si l'utilisateur est sur un mobile
-        is_mobile = st.session_state.is_mobile = st.experimental_get_query_params().get("mobile", ["false"])[0].lower() == "true"
+        is_mobile = st.session_state.is_mobile = st.query_params().get("mobile", ["false"])[0].lower() == "true"
 
         # Adapter la largeur de la flashcard en fonction du type d'appareil
         if is_mobile:
