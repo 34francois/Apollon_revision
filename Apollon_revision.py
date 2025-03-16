@@ -35,6 +35,11 @@ styles = {
 options = {"show_menu": False, "show_sidebar": False}
 page = st_navbar(pages, styles=styles)
 
+def download_csv(df, filename="flashcards.csv"):
+    csv = df.to_csv(index=False)
+    b64 = base64.b64encode(csv.encode()).decode()  # Convertir en base64
+    href = f'<a href="data:file/csv;base64,{b64}" download="{filename}">Télécharger le CSV</a>'
+    st.markdown(href, unsafe_allow_html=True)
 
 with st.sidebar:
     with st.expander("Charger des flashcards d'un CSV"):
@@ -64,7 +69,7 @@ with st.sidebar:
     
             except Exception as e:
                 st.error(f"Erreur lors du chargement du fichier CSV : {e}")
-                
+        
     with st.expander("Créer des flashcards"):
     
         st.header("Créer des flashcards")
@@ -91,7 +96,8 @@ with st.sidebar:
                 # Append the new row to the DataFrame
                 st.session_state.df = pd.concat([st.session_state.df, pd.DataFrame([new_row])], ignore_index=True)
     st.dataframe(st.session_state.df)
-
+    st.subheader("Télécharger les flashcards:")
+    download_csv(st.session_state.df)
 
 
 if page == "Flashcards":
