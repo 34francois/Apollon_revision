@@ -6,6 +6,22 @@ import streamlit.components.v1 as components
 from streamlit_navigation_bar import st_navbar
 import io
 
+# Initialisation dans st.session_state
+if "df" not in st.session_state:
+    st.session_state.df = pd.DataFrame({
+        "INTITULE_QUESTION": pd.Series(dtype='str'),
+        "REPONSE_JUSTE": pd.Series(dtype='str'),
+        "REPONSE_FAUSSE_1": pd.Series(dtype='str'),
+        "REPONSE_FAUSSE_2": pd.Series(dtype='str'),
+        "REPONSE_FAUSSE_3": pd.Series(dtype='str'),
+        "REPONSE_FAUSSE_4": pd.Series(dtype='str'),
+        "REPONSE_FAUSSE_5": pd.Series(dtype='str'),
+        "REPONSE_FAUSSE_6": pd.Series(dtype='str'),
+        "REPONSE_FAUSSE_7": pd.Series(dtype='str'),
+        "REPONSE_FAUSSE_8": pd.Series(dtype='str'),
+        "NBR_JUSTE" pd.Series(dtype='int'),
+        "NBR_FAUX" pd.Series(dtype='int'),
+    })
 
 # Configuration de la barre de navigation
 pages = ["Flashcards", "QCM", "Chronologie"]
@@ -59,7 +75,9 @@ with st.sidebar:
         question = st.text_input("Question :")
         answer = st.text_input("Réponse :")
         if st.form_submit_button("Ajouter"):
-            st.session_state.flashcards[question] = answer
+            # Ajouter une nouvelle ligne à st.session_state.df
+            new_row = pd.DataFrame({"INTITULE_QUESTION": [question], "REPONSE_JUSTE": [answer]})
+            st.session_state.df = pd.concat([st.session_state.df, new_row], ignore_index=True)
             st.success("Flashcard ajoutée !")
             
     # Charger les flashcards à partir d'un fichier CSV
@@ -208,11 +226,13 @@ if page == "Chronologie":
 
 
 
-if page == "Flashcards": 
-    # Sélectionner une flashcard aléatoire si les flashcards ne sont pas vides
-    if st.session_state.flashcards:
-        if not st.session_state.current_card:
-            st.session_state.current_card = random.choice(list(st.session_state.flashcards.keys()))
+if page == "Flashcards":
+    # Sélectionner une flashcard aléatoire
+    if not st.session_state.df.empty:
+        random_index = random.randint(0, len(st.session_state.df) - 1)
+        current_card = st.session_state.df.loc[random_index, "INTITULE_QUESTION"]
+    else:
+        current_card = ""  # Gérer le cas où df est vide
     
     # Définir les styles CSS pour les flashcards
     st.markdown(
