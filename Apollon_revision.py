@@ -23,7 +23,7 @@ if "df" not in st.session_state:
         "NBR_FAUX" : pd.Series(dtype='int'),
     })
     
-st.image("https://chatfaitdubien.fr/wp-content/uploads/2016/12/800_600____2__pension-chat-63_36.jpg")
+
 # Configuration de la barre de navigation
 pages = ["Flashcards", "QCM", "Chronologie"]
 styles = {
