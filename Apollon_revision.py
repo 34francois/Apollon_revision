@@ -22,6 +22,7 @@ if "df" not in st.session_state:
         "NBR_JUSTE" : pd.Series(dtype='int'),
         "NBR_FAUX" : pd.Series(dtype='int'),
     })
+    
 
 # Configuration de la barre de navigation
 pages = ["Flashcards", "QCM", "Chronologie"]
@@ -33,6 +34,8 @@ styles = {
 }
 options = {"show_menu": False, "show_sidebar": False}
 page = st_navbar(pages, styles=styles)
+
+
 
 with st.sidebar:
     
@@ -50,7 +53,6 @@ with st.sidebar:
                 # Concaténer le nouveau DataFrame avec le DataFrame existant
                 st.session_state.df = pd.concat([st.session_state.df, new_flashcards], ignore_index=True)
                 st.success("Flashcards chargées avec succès !")
-                del uploaded_file
             else:
                 st.error("Le fichier CSV doit contenir les colonnes 'INTITULE_QUESTION' et 'REPONSE_JUSTE'.")
         except Exception as e:
