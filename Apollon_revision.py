@@ -81,12 +81,12 @@ if page == "Flashcards":
         st.markdown(
             f"""
             <style>
-            .flip-card {{
+            .flip-card {
                 background-color: transparent;
                 width: {width};
                 height: 200px;
                 perspective: 1000px;
-            }}
+            }
             .flip-card-inner {
                 position: relative;
                 width: 100%;
