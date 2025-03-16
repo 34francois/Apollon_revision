@@ -37,7 +37,7 @@ page = st_navbar(pages, styles=styles)
 
 
 with st.sidebar:
-    with st.expander("Charger des flashcards d'un CSV")
+    with st.expander("Charger des flashcards d'un CSV"):
         # Ajout de la fonctionnalité de téléchargement de CSV
         uploaded_file = st.file_uploader("Charger un fichier CSV", type=["csv"])
         
@@ -65,7 +65,7 @@ with st.sidebar:
             except Exception as e:
                 st.error(f"Erreur lors du chargement du fichier CSV : {e}")
                 
-    with st.expander("Créer des flashcards")
+    with st.expander("Créer des flashcards"):
     
         st.header("Créer des flashcards")
         question = st.text_input("Question :")
