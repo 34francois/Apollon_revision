@@ -58,6 +58,8 @@ with st.sidebar:
             st.session_state.df = pd.concat([st.session_state.df, new_row], ignore_index=True)
             st.success("Flashcard ajoutée !")
 
+    edited_df = st.data_editor(df)
+
 
 if page == "Chronologie":
     st.header("Chronologie")
