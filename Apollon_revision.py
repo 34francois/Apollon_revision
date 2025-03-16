@@ -240,13 +240,14 @@ if page == "QCM":
     # Afficher la question
     st.markdown(f"<div class='question-square'>{question}</div>", unsafe_allow_html=True)
 
-    # Afficher les réponses avec des clés uniques en utilisant hash()
+    # Afficher les réponses comme des carrés cliquables
     cols = st.columns(2)
     for i, answer in enumerate(all_answers):
         with cols[i % 2]:
-            key = hash(f"{question}_{answer}")  # Générer une clé unique avec hash()
-            if st.button(answer, key=key):
-                # Styles additionnels après clic
+            key = hash(f"{question}_{answer}")
+            
+            # Utiliser st.markdown pour créer des carrés cliquables
+            if st.markdown(f"<div class='answer-square' id='{key}' onclick='handleClick(this)' data-answer='{answer}'>{answer}</div>", unsafe_allow_html=True):
                 if answer == correct_answer:
                     st.markdown(f"<div class='answer-button' style='background-color: #90ee90;'>{answer}</div>", unsafe_allow_html=True) # Vert pour la bonne réponse
                 else:
