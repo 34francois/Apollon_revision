@@ -72,7 +72,7 @@ if page == "Flashcards":
 
         # Adapter la largeur de la flashcard en fonction du type d'appareil
         if is_mobile:
-            width = "90%"  # 90% de la largeur de l'écran sur mobile
+            width = "100%"  # 90% de la largeur de l'écran sur mobile
         else:
             width = "300px"  # Largeur fixe sur ordinateur
         
