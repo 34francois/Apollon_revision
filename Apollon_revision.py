@@ -183,3 +183,41 @@ if page == "Flashcards":
         st.session_state.current_flashcard_index = (
             st.session_state.current_flashcard_index + 1
         ) % len(st.session_state.df)  # Boucle à la première flashcard si on arrive à la fin
+
+if page == "QCM":
+    if st.session_state.df.empty:
+        st.warning("Aucune flashcard créée pour le moment.")
+        st.stop()  # Arrêter l'exécution si aucune flashcard
+
+    if "qcm_current_index" not in st.session_state:
+        st.session_state.qcm_current_index = 0
+
+    # Obtenir la question et les réponses
+    question = st.session_state.df.iloc[st.session_state.qcm_current_index]["INTITULE_QUESTION"]
+    correct_answer = st.session_state.df.iloc[st.session_state.qcm_current_index]["REPONSE_JUSTE"]
+    incorrect_answers = [
+        st.session_state.df.iloc[st.session_state.qcm_current_index][col]
+        for col in ["REPONSE_FAUSSE_1", "REPONSE_FAUSSE_2", "REPONSE_FAUSSE_3"]
+        if st.session_state.df.iloc[st.session_state.qcm_current_index][col] != ""  # Ignorer les réponses fausses vides
+    ]
+    
+    # Mélanger les réponses
+    all_answers = [correct_answer] + incorrect_answers
+    random.shuffle(all_answers)
+
+    # Afficher la question
+    st.markdown(f"<div style='background-color: #f0f0f5; padding: 20px; border-radius: 10px;'>{question}</div>", unsafe_allow_html=True)
+
+    # Afficher les réponses
+    cols = st.columns(2)  # Diviser l'écran en 2 colonnes
+    for i, answer in enumerate(all_answers):
+        with cols[i % 2]:  # Alterner entre les colonnes
+            if st.button(answer):
+                if answer == correct_answer:
+                    st.success("Bonne réponse !")
+                else:
+                    st.error("Mauvaise réponse.")
+
+    # Bouton pour passer à la question suivante
+    if st.button("Question suivante"):
+        st.session_state.qcm_current_index = (st.session_state.qcm_current_index + 1) % len(st.session_state.df)
