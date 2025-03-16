@@ -247,8 +247,8 @@ if page == "QCM":
             key = hash(f"{question}_{answer}")
             is_correct = answer == correct_answer  # Vérifier si la réponse est correcte
 
-            # Utiliser st.markdown pour créer des carrés cliquables avec JavaScript inline
-            st.markdown(
+            # Utiliser st.write pour créer des carrés cliquables avec JavaScript inline
+            st.write(
                 f"""
                 <div class='answer-square' id='{key}' onclick='handleClick(this, {is_correct})'>
                     {answer}
@@ -271,6 +271,7 @@ if page == "QCM":
                 """,
                 unsafe_allow_html=True,
             )
+
 
 
     
