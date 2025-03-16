@@ -93,10 +93,10 @@ if page == "Flashcards":
         )
 
         # Bouton pour afficher la flashcard suivante
-        if st.button("Flashcard suivante"):
-            st.session_state.current_flashcard_index = (
-                st.session_state.current_flashcard_index + 1
-            ) % len(st.session_state.df)  # Boucle à la première flashcard si on arrive à la fin
+    if st.button("Flashcard suivante"):
+        st.session_state.current_flashcard_index = (
+            st.session_state.current_flashcard_index + 1
+        ) % len(st.session_state.df)  # Boucle à la première flashcard si on arrive à la fin
 
 
 
