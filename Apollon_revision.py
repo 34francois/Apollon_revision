@@ -117,6 +117,9 @@ if page == "Flashcards":
                 height: 400px;
                 perspective: 1000px;
             }}
+            .flip-card-front p, .flip-card-back p {{
+                font-size: 24px;
+            }}
             .flip-card-inner {{
                 position: relative;
                 width: 100%;
