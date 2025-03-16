@@ -208,11 +208,12 @@ if page == "QCM":
     # Afficher la question
     st.markdown(f"<div style='background-color: #f0f0f5; padding: 20px; border-radius: 10px;'>{question}</div>", unsafe_allow_html=True)
 
-    # Afficher les réponses
-    cols = st.columns(2)  # Diviser l'écran en 2 colonnes
+    # Afficher les réponses avec des clés uniques
+    cols = st.columns(2) 
     for i, answer in enumerate(all_answers):
-        with cols[i % 2]:  # Alterner entre les colonnes
-            if st.button(answer):
+        with cols[i % 2]:
+            key = f"qcm_button_{st.session_state.qcm_current_index}_{i}"  # Clé unique pour chaque bouton
+            if st.button(answer, key=key):
                 if answer == correct_answer:
                     st.success("Bonne réponse !")
                 else:
