@@ -36,7 +36,6 @@ options = {"show_menu": False, "show_sidebar": False}
 page = st_navbar(pages, styles=styles)
 
 
-
 with st.sidebar:
     
     # Ajout de la fonctionnalité de téléchargement de CSV
@@ -47,14 +46,22 @@ with st.sidebar:
             # Charger le CSV dans un DataFrame
             new_flashcards = pd.read_csv(uploaded_file)
             
-            # Vérifier si les colonnes nécessaires sont présentes
-            required_columns = ["INTITULE_QUESTION", "REPONSE_JUSTE"]
-            if all(col in new_flashcards.columns for col in required_columns):
-                # Concaténer le nouveau DataFrame avec le DataFrame existant
-                st.session_state.df = pd.concat([st.session_state.df, new_flashcards], ignore_index=True)
-                st.success("Flashcards chargées avec succès !")
-            else:
-                st.error("Le fichier CSV doit contenir les colonnes 'INTITULE_QUESTION' et 'REPONSE_JUSTE'.")
+            # Afficher les questions dans un tableau
+            st.subheader("Questions du fichier CSV:")
+            st.dataframe(new_flashcards)
+            
+            # Bouton pour charger les données dans df
+            
+            if st.button("Charger les flashcards"):
+                # Vérifier si les colonnes nécessaires sont présentes
+                required_columns = ["INTITULE_QUESTION", "REPONSE_JUSTE"]
+                if all(col in new_flashcards.columns for col in required_columns):
+                    # Concaténer le nouveau DataFrame avec le DataFrame existant
+                    st.session_state.df = pd.concat([st.session_state.df, new_flashcards], ignore_index=True)
+                    st.success("Flashcards chargées avec succès !")
+                else:
+                    st.error("Le fichier CSV doit contenir les colonnes 'INTITULE_QUESTION' et 'REPONSE_JUSTE'.")
+
         except Exception as e:
             st.error(f"Erreur lors du chargement du fichier CSV : {e}")
 
