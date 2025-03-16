@@ -146,12 +146,12 @@ if page == "Flashcards":
         st.session_state.current_card = list(st.session_state.flashcards.keys())[(current_index + 1) % len(st.session_state.flashcards)]
 
     with col1:
-    if st.button("Juste"):
-        if st.session_state.current_card in st.session_state.flashcards:
-            st.session_state.flashcards[st.session_state.current_card]["correct"] += 1
-        else:
-            st.session_state.flashcards[st.session_state.current_card] = {"answer": "", "correct": 1, "incorrect": 0}  # Initialiser la réponse si nécessaire
-        st.session_state.current_card = random.choice(list(st.session_state.flashcards.keys()))  # Passer à la carte suivante
+        if st.button("Juste"):
+            if st.session_state.current_card in st.session_state.flashcards:
+                st.session_state.flashcards[st.session_state.current_card]["correct"] += 1
+            else:
+                st.session_state.flashcards[st.session_state.current_card] = {"answer": "", "correct": 1, "incorrect": 0}  # Initialiser la réponse si nécessaire
+            st.session_state.current_card = random.choice(list(st.session_state.flashcards.keys()))  # Passer à la carte suivante
     
     with col2:
         if st.button("Faux"):
