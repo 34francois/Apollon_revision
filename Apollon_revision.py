@@ -35,8 +35,6 @@ styles = {
 options = {"show_menu": False, "show_sidebar": False}
 page = st_navbar(pages, styles=styles)
 
-
-
 with st.sidebar:
     st.header("Créer des flashcards")
     question = st.text_input("Question :")
@@ -63,4 +61,87 @@ with st.sidebar:
             st.session_state.df = pd.concat([st.session_state.df, pd.DataFrame([new_row])], ignore_index=True)
     st.dataframe(st.session_state.df)
 
+if page == "Flashcards":
+    
+    # Dans la section if page == "Flashcards":
+    flashcards = {}
+    for index, row in st.session_state.df.iterrows():
+        flashcards[row['INTITULE_QUESTION']] = row['REPONSE_JUSTE']
+    st.session_state.flashcards = flashcards
 
+    if "current_card" not in st.session_state:
+        st.session_state.current_card = list(st.session_state.flashcards.keys())[0] if st.session_state.flashcards else ""
+
+    
+    # Définir les styles CSS pour les flashcards
+    st.markdown(
+        """
+        <style>
+        .flip-card {
+            background-color: transparent;
+            width: 300px;
+            height: 200px;
+            perspective: 1000px;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #70b9c4;
+            box-shadow: 5px 5px 10px #888888;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .flip-card-front {
+            color: black;
+        }
+        .flip-card-back {
+            color: black;
+            transform: rotateY(180deg); 
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    # Dans la section if page == "Flashcards":
+    # (Le code HTML pour la flashcard que tu as fourni précédemment)
+    html = f"""
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <p>{st.session_state.current_card}</p>
+        </div>
+        <div class="flip-card-back">
+          <p>{st.session_state.flashcards[st.session_state.current_card] if st.session_state.current_card in st.session_state.flashcards else ""}</p> 
+        </div>
+      </div>
+    </div>
+    """
+    st.markdown(html, unsafe_allow_html=True)
+
+    # Dans la section if page == "Flashcards":
+    if st.button("Flashcard précédente"):
+        current_index = list(st.session_state.flashcards.keys()).index(st.session_state.current_card)
+        st.session_state.current_card = list(st.session_state.flashcards.keys())[current_index - 1] if current_index > 0 else list(st.session_state.flashcards.keys())[-1]
+    if st.button("Flashcard suivante"):
+        current_index = list(st.session_state.flashcards.keys()).index(st.session_state.current_card)
+        st.session_state.current_card = list(st.session_state.flashcards.keys())[(current_index + 1) % len(st.session_state.flashcards)]
+    
