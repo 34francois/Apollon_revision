@@ -113,8 +113,8 @@ if page == "Flashcards":
             <style>
             .flip-card {{
                 background-color: transparent;
-                width: 300px;
-                height: 200px;
+                width: 600px;
+                height: 400px;
                 perspective: 1000px;
             }}
             .flip-card-inner {{
