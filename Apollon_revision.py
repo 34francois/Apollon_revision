@@ -64,7 +64,7 @@ def qcm_squares(question, all_answers, correct_answer):
     }
     </script>
     """
-    html(html_code, height=300)  # Ajuster la hauteur si nécessaire
+    components.html(html_code, height=300)  # Ajuster la hauteur si nécessaire
 
 def download_csv(df, filename="flashcards.csv"):
     csv = df.to_csv(index=False)
