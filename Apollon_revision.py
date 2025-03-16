@@ -67,23 +67,13 @@ if page == "Flashcards":
         if "current_flashcard_index" not in st.session_state:
             st.session_state.current_flashcard_index = 0
 
-        # Détecter si l'utilisateur est sur un mobile
-        is_mobile = st.session_state.is_mobile = st.query_params("mobile", ["false"])[0].lower() == "true"
-
-        # Adapter la largeur de la flashcard en fonction du type d'appareil
-        if is_mobile:
-            width = "100%"  # 90% de la largeur de l'écran sur mobile
-        else:
-            width = "300px"  # Largeur fixe sur ordinateur
-        
-
         # Définir les styles CSS pour les flashcards
         st.markdown(
             f"""
             <style>
             .flip-card {{
                 background-color: transparent;
-                width: {width};
+                width: 300px;
                 height: 200px;
                 perspective: 1000px;
             }}
