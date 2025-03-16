@@ -95,10 +95,10 @@ if page == "Flashcards":
                 transition: transform 0.8s;
                 transform-style: preserve-3d;
             }}
-            .flip-card:hover .flip-card-inner {
+            .flip-card:hover .flip-card-inner {{
                 transform: rotateY(180deg);
-            }
-            .flip-card-front, .flip-card-back {
+            }}
+            .flip-card-front, .flip-card-back {{
                 position: absolute;
                 width: 100%;
                 height: 100%;
@@ -112,14 +112,14 @@ if page == "Flashcards":
                 display: flex;
                 align-items: center;
                 justify-content: center;
-            }
-            .flip-card-front {
+            }}
+            .flip-card-front {{
                 color: black;
-            }
-            .flip-card-back {
+            }}
+            .flip-card-back {{
                 color: black;
                 transform: rotateY(180deg); 
-            }
+            }}
             </style>
             """,
             unsafe_allow_html=True,
