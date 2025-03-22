@@ -93,7 +93,7 @@ with st.sidebar:
                     "NBR_FAUX": 0
                 }
                    # Convertir new_row en DataFrame
-               new_row_df = pd.DataFrame([new_row]) 
+            new_row_df = pd.DataFrame([new_row]) 
         
                # Ajouter la nouvelle ligne au DataFrame existant
                st.session_state.df = pd.concat([st.session_state.df, new_row_df], ignore_index=True)
