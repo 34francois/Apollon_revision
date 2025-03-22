@@ -77,6 +77,7 @@ with st.sidebar:
         reponse = st.text_input("Réponse :")
 
         if st.button("Ajouter Flashcard"):
+            
                 # Create a new row as a dictionary
                 new_row = {
                     "INTITULE_QUESTION": question,
@@ -95,14 +96,14 @@ with st.sidebar:
                    # Convertir new_row en DataFrame
             new_row_df = pd.DataFrame([new_row]) 
         
-               # Ajouter la nouvelle ligne au DataFrame existant
-               st.session_state.df = pd.concat([st.session_state.df, new_row_df], ignore_index=True)
-        
-               # Réinitialiser les champs de saisie
-               question = st.text_input("Question :", value="") 
-               reponse = st.text_input("Réponse :", value="")
-        
-               st.success("Flashcard ajoutée avec succès !")
+           # Ajouter la nouvelle ligne au DataFrame existant
+           st.session_state.df = pd.concat([st.session_state.df, new_row_df], ignore_index=True)
+    
+           # Réinitialiser les champs de saisie
+           question = st.text_input("Question :", value="") 
+           reponse = st.text_input("Réponse :", value="")
+    
+           st.success("Flashcard ajoutée avec succès !")
 
 if page == "Flashcards":
     if st.session_state.df.empty:
