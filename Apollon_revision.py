@@ -95,8 +95,7 @@ with st.sidebar:
             # Ajouter la nouvelle ligne au DataFrame existant
             st.session_state.df = pd.concat([st.session_state.df, new_row_df], ignore_index=True)
             # Réinitialiser les champs de saisie
-            question = st.text_input("Question :", value="") 
-            reponse = st.text_input("Réponse :", value="")
+
     
             st.success("Flashcard ajoutée avec succès !")
 
