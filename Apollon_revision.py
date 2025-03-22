@@ -93,9 +93,9 @@ with st.sidebar:
                     "NBR_FAUX": 0
                 }
 
-                # Append the new row to the DataFrame
+                # Ajouter une ligne au dataframe
                 st.session_state.df = pd.concat([st.session_state.df, pd.DataFrame([new_row])], ignore_index=True)
-    st.dataframe(st.session_state.df)
+    st.data_editor(st.session_state.df, num_rows="dynamic")
     st.subheader("Télécharger les flashcards:")
     download_csv(st.session_state.df)
 
