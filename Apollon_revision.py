@@ -11,6 +11,8 @@ if "df" not in st.session_state:
     st.session_state.df = pd.DataFrame({
         "INTITULE_QUESTION": pd.Series(dtype='str'),
         "REPONSE_JUSTE": pd.Series(dtype='str'),
+        "IMAGE_QUESTION": pd.Series(dtype='str'),  # Nouvelle colonne pour l'image de la question
+        "IMAGE_REPONSE": pd.Series(dtype='str'),  # Nouvelle colonne pour l'image de la réponse
         "REPONSE_FAUSSE_1": pd.Series(dtype='str'),
         "REPONSE_FAUSSE_2": pd.Series(dtype='str'),
         "REPONSE_FAUSSE_3": pd.Series(dtype='str'),
@@ -74,12 +76,17 @@ with st.sidebar:
 
         st.header("Créer des flashcards")
         question = st.text_input("Question :")
+        image_question = st.file_uploader("Image pour la question (facultatif)", type=["jpg", "png", "jpeg"])
+
         reponse = st.text_input("Réponse :")
+        image_reponse = st.file_uploader("Image pour la réponse (facultatif)", type=["jpg", "png", "jpeg"])
 
         if st.button("Ajouter Flashcard"):
             new_row = {
                     "INTITULE_QUESTION": question,
                     "REPONSE_JUSTE": reponse,
+                    "IMAGE_QUESTION": base64.b64encode(image_question.read()).decode() if image_question else "",
+                    "IMAGE_REPONSE": base64.b64encode(image_reponse.read()).decode() if image_reponse else "",
                     "REPONSE_FAUSSE_1": "",  # Add or modify other columns as needed
                     "REPONSE_FAUSSE_2": "",
                     "REPONSE_FAUSSE_3": "",
@@ -171,9 +178,11 @@ if page == "Flashcards":
           <div class="flip-card-inner">
             <div class="flip-card-front">
               <p>{current_question}</p>
+              {f"<img src='data:image/jpeg;base64,{current_image_question}' />" if current_image_question else ""}
             </div>
             <div class="flip-card-back">
-              <p>{current_answer}</p> 
+              <p>{current_answer}</p>
+              {f"<img src='data:image/jpeg;base64,{current_image_reponse}' />" if current_image_reponse else ""}
             </div>
           </div>
         </div>
