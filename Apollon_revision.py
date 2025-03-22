@@ -171,6 +171,8 @@ if page == "Flashcards":
         current_answer = st.session_state.df.iloc[
             st.session_state.current_flashcard_index
         ]["REPONSE_JUSTE"]
+        current_image_question = st.session_state.df.iloc[st.session_state.current_flashcard_index]["IMAGE_QUESTION"]
+        current_image_reponse = st.session_state.df.iloc[st.session_state.current_flashcard_index]["IMAGE_REPONSE"]
 
         # HTML pour la flashcard
         html = f"""
