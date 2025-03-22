@@ -94,7 +94,6 @@ with st.sidebar:
                 }
 
                 # Ajouter une ligne au dataframe
-       #         st.session_state.df = pd.concat([st.session_state.df, pd.DataFrame([new_row])], ignore_index=True)
     st.data_editor(st.session_state.df, num_rows="dynamic")
     if st.button ("Mettre à jour les flashcards"):
         st.session_state.df = st.data_editor(st.session_state.df, num_rows="dynamic")
