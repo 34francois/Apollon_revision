@@ -93,15 +93,6 @@ with st.sidebar:
                     "NBR_FAUX": 0
                 }
 
-                # Ajouter une ligne au dataframe
-    edited_df = st.data_editor(st.session_state.df, num_rows="dynamic")
-    if st.button ("Mettre à jour les flashcards"):
-        st.session_state.df = edited_df
-        st.rerun()
-    st.subheader("Télécharger les flashcards:")
-    download_csv(st.session_state.df)
-
-
 if page == "Flashcards":
     if st.session_state.df.empty:
         st.warning("Aucune flashcard créée pour le moment.")
