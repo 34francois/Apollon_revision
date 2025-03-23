@@ -46,9 +46,7 @@ def download_csv(df, filename="flashcards.csv"):
 # Chaîne base64 d'une image PNG transparente de 1x1 pixel
 pixel_image_base64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
 
-# Remplacer les valeurs vides dans les colonnes IMAGE_QUESTION et IMAGE_REPONSE
-st.session_state.df['IMAGE_QUESTION'] = st.session_state.df['IMAGE_QUESTION'].apply(lambda x: pixel_image_base64 if x == "" else x)
-st.session_state.df['IMAGE_REPONSE'] = st.session_state.df['IMAGE_REPONSE'].apply(lambda x: pixel_image_base64 if x == "" else x)
+
 
 
 with st.sidebar:
@@ -74,6 +72,9 @@ with st.sidebar:
                         # Concaténer le nouveau DataFrame avec le DataFrame existant
                         st.session_state.df = pd.concat([st.session_state.df, new_flashcards], ignore_index=True)
                         st.success("Flashcards chargées avec succès !")
+                        # Remplacer les valeurs vides dans les colonnes IMAGE_QUESTION et IMAGE_REPONSE
+                        st.session_state.df['IMAGE_QUESTION'] = st.session_state.df['IMAGE_QUESTION'].apply(lambda x: pixel_image_base64 if x == "" else x)
+                        st.session_state.df['IMAGE_REPONSE'] = st.session_state.df['IMAGE_REPONSE'].apply(lambda x: pixel_image_base64 if x == "" else x)
                     else:
                         st.error("Le fichier CSV doit contenir les colonnes 'INTITULE_QUESTION' et 'REPONSE_JUSTE'.")
 
