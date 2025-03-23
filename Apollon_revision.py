@@ -37,11 +37,11 @@ styles = {
 options = {"show_menu": False, "show_sidebar": False}
 page = st_navbar(pages, styles=styles)
 
-def none_image(df):
+def none_image(st.session_state.df):
   pixel_image_base64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-  df['IMAGE_QUESTION'] = df['IMAGE_QUESTION'].apply(lambda x: pixel_image_base64 if x == None else x)
-  df['IMAGE_REPONSE'] = df['IMAGE_REPONSE'].apply(lambda x: pixel_image_base64 if x == None else x)
-  return df
+  st.session_state.df['IMAGE_QUESTION'] = st.session_state.df['IMAGE_QUESTION'].apply(lambda x: pixel_image_base64 if x == None else x)
+  st.session_state.df['IMAGE_REPONSE'] = st.session_state.df['IMAGE_REPONSE'].apply(lambda x: pixel_image_base64 if x == None else x)
+  return st.session_state.df
 
 
 def download_csv(df, filename="flashcards.csv"):
