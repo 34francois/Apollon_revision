@@ -113,6 +113,8 @@ with st.sidebar:
 
     
             st.success("Flashcard ajoutée avec succès !")
+    with st.expander("Afficher le DataFrame"):  # Afficher dans un expander pour gagner de la place
+        st.dataframe(st.session_state.df) 
 
 if page == "Flashcards":
     if st.session_state.df.empty:
