@@ -180,11 +180,11 @@ if page == "Flashcards":
           <div class="flip-card-inner">
             <div class="flip-card-front">
               <p>{current_question}</p>
-              {f"<img src='data:image/jpeg;base64,{current_image_question}' />" if current_image_question else ""}
+              {f"<img src='data:image/jpeg;base64,{current_image_question}' style='max-width: 100%; max-height: 100%;' />" if current_image_question else ""}
             </div>
             <div class="flip-card-back">
               <p>{current_answer}</p>
-              {f"<img src='data:image/jpeg;base64,{current_image_reponse}' />" if current_image_reponse else ""}
+              {f"<img src='data:image/jpeg;base64,{current_image_reponse}' style='max-width: 100%; max-height: 100%;' />" if current_image_reponse else ""}
             </div>
           </div>
         </div>
