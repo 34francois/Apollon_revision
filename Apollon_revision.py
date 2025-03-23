@@ -39,8 +39,8 @@ page = st_navbar(pages, styles=styles)
 
 def none_image(df):
   pixel_image_base64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-  df['IMAGE_QUESTION'] = df['IMAGE_QUESTION'].apply(lambda x: pixel_image_base64 if x == None else x)
-  df['IMAGE_REPONSE'] = df['IMAGE_REPONSE'].apply(lambda x: pixel_image_base64 if x == None else x)
+  df['IMAGE_QUESTION'] = df['IMAGE_QUESTION'].apply(lambda x: pixel_image_base64 if x == '' else x)
+  df['IMAGE_REPONSE'] = df['IMAGE_REPONSE'].apply(lambda x: pixel_image_base64 if x == '' else x)
   return df
 
 
@@ -112,9 +112,7 @@ with st.sidebar:
             # Ajouter la nouvelle ligne au DataFrame existant
             st.session_state.df = pd.concat([st.session_state.df, new_row_df], ignore_index=True)
             none_image(st.session_state.df)
-            # Réinitialiser les champs de saisie
 
-    
             st.success("Flashcard ajoutée avec succès !")
     with st.expander("Afficher le DataFrame"):  # Afficher dans un expander pour gagner de la place
         st.dataframe(st.session_state.df) 
