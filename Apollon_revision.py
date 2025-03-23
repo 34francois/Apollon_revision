@@ -43,6 +43,12 @@ def none_image(df):
   df['IMAGE_REPONSE'] = df['IMAGE_REPONSE'].apply(lambda x: pixel_image_base64 if x == '' else x)
   return df
 
+def download_csv(df, filename="flashcards.csv"):
+  """Génère un lien pour télécharger le DataFrame au format CSV."""
+  csv = df.to_csv(index=False)
+  b64 = base64.b64encode(csv.encode()).decode()
+  href = f'<a href="data:file/csv;base64,{b64}" download="{filename}">Télécharger le CSV</a>'
+  st.markdown(href, unsafe_allow_html=True)
 
 def download_csv(df, filename="flashcards.csv"):
     csv = df.to_csv(index=False)
@@ -115,7 +121,9 @@ with st.sidebar:
 
             st.success("Flashcard ajoutée avec succès !")
     with st.expander("Afficher le DataFrame"):  # Afficher dans un expander pour gagner de la place
-        st.dataframe(st.session_state.df) 
+        st.dataframe(st.session_state.df)
+    download_csv(st.session_state.df)
+
 
 if page == "Flashcards":
     if st.session_state.df.empty:
