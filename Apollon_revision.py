@@ -37,12 +37,20 @@ styles = {
 options = {"show_menu": False, "show_sidebar": False}
 page = st_navbar(pages, styles=styles)
 
+def none_image(df):
+  pixel_image_base64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+  df['IMAGE_QUESTION'] = df['IMAGE_QUESTION'].apply(lambda x: pixel_image_base64 if x == "" else x)
+  df['IMAGE_REPONSE'] = df['IMAGE_REPONSE'].apply(lambda x: pixel_image_base64 if x == "" else x)
+  return df
+
+
 def download_csv(df, filename="flashcards.csv"):
     csv = df.to_csv(index=False)
     b64 = base64.b64encode(csv.encode()).decode()  # Convertir en base64
     href = f'<a href="data:file/csv;base64,{b64}" download="{filename}">Télécharger le CSV</a>'
     st.markdown(href, unsafe_allow_html=True)
 
+none_image(df)
 
 with st.sidebar:
     with st.expander("Charger des flashcards d'un CSV"):
