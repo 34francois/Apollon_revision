@@ -43,6 +43,14 @@ def download_csv(df, filename="flashcards.csv"):
     href = f'<a href="data:file/csv;base64,{b64}" download="{filename}">Télécharger le CSV</a>'
     st.markdown(href, unsafe_allow_html=True)
 
+# Chaîne base64 d'une image PNG transparente de 1x1 pixel
+pixel_image_base64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+
+# Remplacer les valeurs vides dans les colonnes IMAGE_QUESTION et IMAGE_REPONSE
+st.session_state.df['IMAGE_QUESTION'] = st.session_state.df['IMAGE_QUESTION'].apply(lambda x: pixel_image_base64 if x == "" else x)
+st.session_state.df['IMAGE_REPONSE'] = st.session_state.df['IMAGE_REPONSE'].apply(lambda x: pixel_image_base64 if x == "" else x)
+
+
 with st.sidebar:
     with st.expander("Charger des flashcards d'un CSV"):
         # Ajout de la fonctionnalité de téléchargement de CSV
