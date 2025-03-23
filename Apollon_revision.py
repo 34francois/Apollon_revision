@@ -74,6 +74,7 @@ with st.sidebar:
                     if all(col in new_flashcards.columns for col in required_columns):
                         # Concaténer le nouveau DataFrame avec le DataFrame existant
                         st.session_state.df = pd.concat([st.session_state.df, new_flashcards], ignore_index=True)
+                        none_image(st.session_state.df)
                         st.success("Flashcards chargées avec succès !")
                     else:
                         st.error("Le fichier CSV doit contenir les colonnes 'INTITULE_QUESTION' et 'REPONSE_JUSTE'.")
@@ -110,6 +111,7 @@ with st.sidebar:
             new_row_df = pd.DataFrame([new_row])
             # Ajouter la nouvelle ligne au DataFrame existant
             st.session_state.df = pd.concat([st.session_state.df, new_row_df], ignore_index=True)
+            none_image(st.session_state.df)
             # Réinitialiser les champs de saisie
 
     
