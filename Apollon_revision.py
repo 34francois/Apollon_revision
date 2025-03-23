@@ -199,11 +199,11 @@ if page == "Flashcards":
           <div class="flip-card-inner">
             <div class="flip-card-front">
               <p>{current_question}</p>
-              {f"<img src='data:image/jpeg;base64,{current_image_question}' style='max-width: 100%; max-height: 100%;' />" if current_image_question and current_image_question.startswith('/9j/') else f"<img src='data:image/png;base64,{current_image_question}' style='max-width: 100%; max-height: 100%;' />" if current_image_question else "<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=' style='max-width: 100%; max-height: 100%;' />"}
+              {f"<img src='data:image/jpeg;base64,{current_image_question}' />" if current_image_question else ""}
             </div>
             <div class="flip-card-back">
               <p>{current_answer}</p>
-              {f"<img src='data:image/jpeg;base64,{current_image_reponse}' style='max-width: 100%; max-height: 100%;' />" if current_image_reponse and current_image_reponse.startswith('/9j/') else f"<img src='data:image/png;base64,{current_image_reponse}' style='max-width: 100%; max-height: 100%;' />" if current_image_reponse else "<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=' style='max-width: 100%; max-height: 100%;' />"}
+              {f"<img src='data:image/jpeg;base64,{current_image_reponse}' />" if current_image_reponse else ""}
             </div>
           </div>
         </div>
