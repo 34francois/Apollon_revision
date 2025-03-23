@@ -39,8 +39,8 @@ page = st_navbar(pages, styles=styles)
 
 def none_image(df):
   pixel_image_base64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-  df['IMAGE_QUESTION'] = df['IMAGE_QUESTION'].apply(lambda x: pixel_image_base64 if x == "" else x)
-  df['IMAGE_REPONSE'] = df['IMAGE_REPONSE'].apply(lambda x: pixel_image_base64 if x == "" else x)
+  df['IMAGE_QUESTION'] = df['IMAGE_QUESTION'].apply(lambda x: pixel_image_base64 if x == None else x)
+  df['IMAGE_REPONSE'] = df['IMAGE_REPONSE'].apply(lambda x: pixel_image_base64 if x == None else x)
   return df
 
 
