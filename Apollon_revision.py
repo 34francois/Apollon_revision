@@ -67,11 +67,6 @@ with st.sidebar:
                         # Concaténer le nouveau DataFrame avec le DataFrame existant
                         st.session_state.df = pd.concat([st.session_state.df, new_flashcards], ignore_index=True)
                         st.success("Flashcards chargées avec succès !")
-                            # Remplacer les valeurs vides dans les colonnes IMAGE_QUESTION et IMAGE_REPONSE
-                        if image_question is None:
-                            image_question = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" 
-                        if image_reponse is None:
-                            image_reponse = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                     else:
                         st.error("Le fichier CSV doit contenir les colonnes 'INTITULE_QUESTION' et 'REPONSE_JUSTE'.")
 
