@@ -37,26 +37,11 @@ styles = {
 options = {"show_menu": False, "show_sidebar": False}
 page = st_navbar(pages, styles=styles)
 
-def none_image(df):
-  pixel_image_base64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-  df['IMAGE_QUESTION'] = df['IMAGE_QUESTION'].apply(lambda x: pixel_image_base64 if x == '' else x)
-  df['IMAGE_REPONSE'] = df['IMAGE_REPONSE'].apply(lambda x: pixel_image_base64 if x == '' else x)
-  return df
-
-def download_csv(df, filename="flashcards.csv"):
-  """Génère un lien pour télécharger le DataFrame au format CSV."""
-  csv = df.to_csv(index=False)
-  b64 = base64.b64encode(csv.encode()).decode()
-  href = f'<a href="data:file/csv;base64,{b64}" download="{filename}">Télécharger le CSV</a>'
-  st.markdown(href, unsafe_allow_html=True)
-
 def download_csv(df, filename="flashcards.csv"):
     csv = df.to_csv(index=False)
     b64 = base64.b64encode(csv.encode()).decode()  # Convertir en base64
     href = f'<a href="data:file/csv;base64,{b64}" download="{filename}">Télécharger le CSV</a>'
     st.markdown(href, unsafe_allow_html=True)
-
-none_image(st.session_state.df)
 
 with st.sidebar:
     with st.expander("Charger des flashcards d'un CSV"):
@@ -80,7 +65,6 @@ with st.sidebar:
                     if all(col in new_flashcards.columns for col in required_columns):
                         # Concaténer le nouveau DataFrame avec le DataFrame existant
                         st.session_state.df = pd.concat([st.session_state.df, new_flashcards], ignore_index=True)
-                        none_image(st.session_state.df)
                         st.success("Flashcards chargées avec succès !")
                     else:
                         st.error("Le fichier CSV doit contenir les colonnes 'INTITULE_QUESTION' et 'REPONSE_JUSTE'.")
@@ -117,13 +101,10 @@ with st.sidebar:
             new_row_df = pd.DataFrame([new_row])
             # Ajouter la nouvelle ligne au DataFrame existant
             st.session_state.df = pd.concat([st.session_state.df, new_row_df], ignore_index=True)
-            none_image(st.session_state.df)
+            # Réinitialiser les champs de saisie
 
+    
             st.success("Flashcard ajoutée avec succès !")
-    with st.expander("Afficher le DataFrame"):  # Afficher dans un expander pour gagner de la place
-        st.dataframe(st.session_state.df)
-    download_csv(st.session_state.df)
-
 
 if page == "Flashcards":
     if st.session_state.df.empty:
@@ -193,7 +174,7 @@ if page == "Flashcards":
         current_image_question = st.session_state.df.iloc[st.session_state.current_flashcard_index]["IMAGE_QUESTION"]
         current_image_reponse = st.session_state.df.iloc[st.session_state.current_flashcard_index]["IMAGE_REPONSE"]
 
-         # HTML pour la flashcard
+        # HTML pour la flashcard
         html = f"""
         <div class="flip-card">
           <div class="flip-card-inner">
@@ -208,6 +189,7 @@ if page == "Flashcards":
           </div>
         </div>
         """
+        st.markdown(html, unsafe_allow_html=True)
 
     # Bouton pour afficher la flashcard suivante
     if st.button("Flashcard suivante"):
