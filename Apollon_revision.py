@@ -193,17 +193,17 @@ if page == "Flashcards":
         current_image_question = st.session_state.df.iloc[st.session_state.current_flashcard_index]["IMAGE_QUESTION"]
         current_image_reponse = st.session_state.df.iloc[st.session_state.current_flashcard_index]["IMAGE_REPONSE"]
 
-        # HTML pour la flashcard
+         # HTML pour la flashcard
         html = f"""
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-card-front">
               <p>{current_question}</p>
-              {f"<img src='data:image/jpeg;base64,{current_image_question}' style='max-width: 100%; max-height: 100%;' />" if current_image_question else ""}
+              {f"<img src='data:image/jpeg;base64,{current_image_question}' style='max-width: 100%; max-height: 100%;' />" if current_image_question.startswith('/9j/') else f"<img src='data:image/png;base64,{current_image_question}' style='max-width: 100%; max-height: 100%;' />" if current_image_question else "<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=' style='max-width: 100%; max-height: 100%;' />"}
             </div>
             <div class="flip-card-back">
               <p>{current_answer}</p>
-              {f"<img src='data:image/jpeg;base64,{current_image_reponse}' style='max-width: 100%; max-height: 100%;' />" if current_image_reponse else ""}
+              {f"<img src='data:image/jpeg;base64,{current_image_reponse}' style='max-width: 100%; max-height: 100%;' />" if current_image_reponse.startswith('/9j/') else f"<img src='data:image/png;base64,{current_image_reponse}' style='max-width: 100%; max-height: 100%;' />" if current_image_reponse else "<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=' style='max-width: 100%; max-height: 100%;' />"}
             </div>
           </div>
         </div>
