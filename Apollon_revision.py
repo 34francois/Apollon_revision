@@ -50,7 +50,7 @@ def download_csv(df, filename="flashcards.csv"):
     href = f'<a href="data:file/csv;base64,{b64}" download="{filename}">Télécharger le CSV</a>'
     st.markdown(href, unsafe_allow_html=True)
 
-none_image(df)
+none_image(st.session_state.df)
 
 with st.sidebar:
     with st.expander("Charger des flashcards d'un CSV"):
